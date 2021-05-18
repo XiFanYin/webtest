@@ -1,0 +1,25 @@
+/* 公共样式 */
+*{
+    margin:  0;
+    padding: 0;
+    list-style: none;
+    outline: none;
+    text-decoration: none;
+  }
+
+  /*弹性布局 */
+  .flex{
+    display: flex;
+  }
+  /* 主轴居中 */
+  .j-c{
+    justify-content: center;
+  }
+  /*  主轴 两端对齐 平分  */
+  .j-s{
+      justify-content: space-between;
+  }
+  /* 侧轴 居中 */
+  .a-c{
+     align-items: center;
+  }
