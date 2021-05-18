@@ -8,6 +8,13 @@ const instance = axios.create({
 });
 
 
+/* 创建token */
+let  setToken = function (token) {
+    instance.defaults.headers.common['token'] = sessionStorage.getItem("token");  
+}
+
+
+
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
@@ -43,5 +50,6 @@ let post = async function (url, params) {
 //导出
 export {
     get,
-    post
+    post,
+    setToken
 }

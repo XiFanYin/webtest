@@ -1,4 +1,4 @@
-import {get,post} from '../utils/request'
+import {get,post,setToken} from '../utils/request'
 
 //自定义插件
 export default{
@@ -11,6 +11,9 @@ export default{
              },
              $post(url,params){
                 return post(url,params)
+             },
+             $setToken(){
+                setToken()
              }
          },
       })
