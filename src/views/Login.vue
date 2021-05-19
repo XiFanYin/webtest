@@ -72,8 +72,10 @@ export default {
         if (valid) {
           //发起网络请求
           this.$get("/login").then(res => {
+               //保存token
               sessionStorage.setItem("toekn",res.token)
-              this.$setToken(res.token)
+              //给网络请求设置token
+              this.$setToken()
               //跳转页面
            })
         } else {
