@@ -70,9 +70,12 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          //发起网络请求
           this.$get("/login").then(res => {
-                console.log("eeee")
-            })
+              sessionStorage.setItem("toekn",res.token)
+              this.$setToken(res.token)
+              //跳转页面
+           })
         } else {
           return false;
         }
