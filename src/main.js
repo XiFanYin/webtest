@@ -9,12 +9,10 @@ import './commom/index.css'
 import './plugin/index.js'
 
 
-
-
-Vue.config.productionTip = false
-
-new Vue({
+ new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
+
+
