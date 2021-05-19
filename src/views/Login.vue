@@ -70,13 +70,15 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          this.$get("/login").then(res => {
+                console.log("eeee")
+            })
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
     },
+   
   },
 };
 </script>

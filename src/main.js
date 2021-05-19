@@ -9,6 +9,9 @@ import './commom/index.css'
 import './plugin/index.js'
 
 
+//模拟数据运行
+import './mock/mockservice.js'
+
  new Vue({
   router,
   store,

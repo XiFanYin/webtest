@@ -3,7 +3,7 @@ import axios from 'axios'
 
 //初始化对象
 const instance = axios.create({
-    baseURL: 'https://some-domain.com/api/',
+    baseURL: 'http://test.demo.com',
     timeout: 30000
 });
 
