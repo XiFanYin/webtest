@@ -77,6 +77,7 @@ export default {
               //给网络请求设置token
               this.$setToken()
               //跳转页面
+              this.$router.replace("/home")
            })
         } else {
           return false;
