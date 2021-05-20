@@ -78,15 +78,16 @@ export default {
               this.$setToken()
               //跳转页面
               // this.$router.push({name:"home",params:{id:"123"}})
-            this.$router.push({ path: '/home', query: { id: 123 }});
+            this.$router.push({ path: '/home'});
            })
         } else {
           return false;
         }
       });
     },
-   
   },
+
+
 };
 </script>
 
