@@ -73,11 +73,12 @@ export default {
           //发起网络请求
           this.$get("/login").then(res => {
                //保存token
-              sessionStorage.setItem("toekn",res.token)
+              sessionStorage.setItem("token",res.token)
               //给网络请求设置token
               this.$setToken()
               //跳转页面
-              this.$router.replace("/home")
+              // this.$router.push({name:"home",params:{id:"123"}})
+            this.$router.push({ path: '/home', query: { id: 123 }});
            })
         } else {
           return false;

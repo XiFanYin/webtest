@@ -1,10 +1,18 @@
 <template>
   <div>
-      我是一个首页布局页面
+    {{$route.query.id}}
   </div>
 </template>
 <script>
 export default {
+
+ 
+
+
+
+
+  
+   
 }
 </script>
 
