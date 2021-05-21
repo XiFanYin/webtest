@@ -19,7 +19,7 @@
         >
           <!-- 插槽标题title -->
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <img src="../assets/logo.png"  class="icon">
             <span>{{ item.menu }}</span>
           </template>
           <!-- 循环遍历子标题 -->
@@ -34,7 +34,7 @@
     </div>
 
     <div class="right">
-       <div class="nav_bar"></div>
+       <div class="nav_bar">{{$store.state.address}}</div>
        <router-view/>
     </div>
   </div>
@@ -66,6 +66,7 @@ export default {
 <style lang="scss" scoped>
 
 
+
 .home {
   width: 100%;
   height: 100vh;
@@ -85,6 +86,12 @@ export default {
     .mymenu {
       height: 100%;
       border: none; /* element有这个属性，给他干掉 */
+     .icon{
+       width: 16px;
+       height: 16px;
+       padding-right: 5px;
+     }
+
     }
   }
   .right {
@@ -99,10 +106,12 @@ export default {
   }
 
   /* 修改ui库样式 */
- /*  ::v-deep .el-icon-arrow-down:before {
+/*   ::v-deep .el-icon-arrow-down:before {
     content: "";
   } */
 
+  
+  
   
 }
 </style>

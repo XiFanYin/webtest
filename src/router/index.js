@@ -39,6 +39,14 @@ const routes = [
         meta: {
           title: "会员信息"
         }
+      },
+      {
+        name: "menberhealth",
+        path: "/menberhealth",
+        component: () => import('../views/menberhealth.vue'),
+        meta: {
+          title: "会员健康"
+        }
       }
     ]
   }
