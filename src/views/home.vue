@@ -34,8 +34,6 @@
     </div>
 
     <div class="right">
-       <div class="nav_bar">{{$store.state.obj.address}}</div>
-       <div class="nav_bar">{{$store.state.obj.age}}</div>
        <router-view/>
     </div>
   </div>
@@ -65,8 +63,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 
 .home {
   width: 100%;
