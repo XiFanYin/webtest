@@ -53,11 +53,20 @@ const routes = [
 
 ]
 
+
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
+
+
+//在router.js文件加入，解决element问题可以完美的解决
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 
 

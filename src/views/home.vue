@@ -34,7 +34,8 @@
     </div>
 
     <div class="right">
-       <div class="nav_bar">{{$store.state.address}}</div>
+       <div class="nav_bar">{{$store.state.obj.address}}</div>
+       <div class="nav_bar">{{$store.state.obj.age}}</div>
        <router-view/>
     </div>
   </div>
