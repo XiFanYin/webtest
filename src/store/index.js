@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import createPersistedState from "vuex-persistedstate"
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -14,7 +16,10 @@ export default new Vuex.Store({
       //https://cn.vuejs.org/v2/guide/reactivity.html#%E5%AF%B9%E4%BA%8E%E5%AF%B9%E8%B1%A1
       state.obj = Object.assign({}, state.obj, obj)
     }
-  }
-
+  },
+  //配置插件解决刷新数据不消失
+  plugins: [createPersistedState({
+    storage: window.sessionStorage
+    })]
  
 })
