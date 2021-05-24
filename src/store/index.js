@@ -8,8 +8,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   /* state就是数据 */
   state: {
-    //声明成对象
-    obj:{}
+    //声明成对象，里边放动态数据
+    obj: {},
+    //主题数据,默认数据
+    theme: {
+      default: "545c64",
+      blue: "#101f30",
+      red: "#7c1823"}
   },
   mutations: {
     setStateVal(state, obj) {
@@ -20,6 +25,6 @@ export default new Vuex.Store({
   //配置插件解决刷新数据不消失
   plugins: [createPersistedState({
     storage: window.sessionStorage
-    })]
- 
+  })]
+
 })

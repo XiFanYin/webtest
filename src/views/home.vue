@@ -19,7 +19,7 @@
         >
           <!-- 插槽标题title -->
           <template slot="title">
-            <img src="../assets/logo.png"  class="icon">
+            <img src="../assets/logo.png" class="icon" />
             <span>{{ item.menu }}</span>
           </template>
           <!-- 循环遍历子标题 -->
@@ -34,9 +34,21 @@
     </div>
 
     <div class="right">
-       <div class="nav_bar">{{$store.state.obj.address}}</div>
-     
-       <router-view/>
+      <!-- title -->
+      <div class="nav_bar">
+        <div class="theme">
+          <el-dropdown trigger="click">
+            <span class="el-dropdown-link">
+              主题<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>红色</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+      </div>
+
+      <router-view />
     </div>
   </div>
 </template>
@@ -52,7 +64,7 @@ export default {
   methods: {
     //某个条目被点击
     selecet(index) {
-     this.$router.push(index)
+      this.$router.push(index);
     },
   },
   mounted() {
@@ -65,9 +77,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
-
 .home {
   width: 100%;
   height: 100vh;
@@ -87,32 +96,53 @@ export default {
     .mymenu {
       height: 100%;
       border: none; /* element有这个属性，给他干掉 */
-     .icon{
-       width: 16px;
-       height: 16px;
-       padding-right: 5px;
-     }
-
+      .icon {
+        width: 16px;
+        height: 16px;
+        padding-right: 5px;
+      }
     }
   }
   .right {
     flex: 1;
     border: 1px solid #000;
-    .nav_bar{
+    .nav_bar {
       width: 100%;
       height: 70px;
       background: #545c64;
+      display: flex;
+      flex-direction: row-reverse;
     }
+  }
 
+  .theme {
+    margin-right: 50px;
   }
 
   /* 修改ui库样式 */
-/*   ::v-deep .el-icon-arrow-down:before {
+  /*   ::v-deep .el-icon-arrow-down:before {
     content: "";
   } */
+}
 
-  
-  
-  
+.el-dropdown-link {
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 70px;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+
+.demonstration {
+  display: block;
+  color: #545c64;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.el-dropdown-menu {
+  top: 42px !important;
 }
 </style>

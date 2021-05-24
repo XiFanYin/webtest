@@ -1,5 +1,5 @@
 <template>
-  <div @click="aaa">
+  <div>
       会员健康页面
   </div>
 
@@ -13,13 +13,6 @@ export default {
       }
     },    
 
-
-    methods: {
-        aaa(){   
-           this.$store.commit('setStateVal',{address:"郑州"} )
-        },
-        
-    },
    
 }
 </script>
