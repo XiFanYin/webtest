@@ -30,14 +30,25 @@ instance.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
     // 对响应错误做点什么
+      let  isHandlerError =  true;
+      const hideNormalError = () => isHandlerError = false
+      //根据宏任务和微任务执行顺序
+      setTimeout(() => {
+        if (isHandlerError) {
+            console.log("统一处理代码逻辑")  
+        }
+    })
+    //方法赋值给对象
+    error.hideNormalError = hideNormalError
     return Promise.reject(error);
 });
 
 
+
 /* 定义get请求 */
 let get = async function (url, params) {
-   let {data} =  await instance.get(url, {params})
-   return data
+      let {data} =  await instance.get(url, {params})
+      return data
 }
 
 
@@ -46,6 +57,9 @@ let post = async function (url, params) {
     let {data} = await instance.post(url, params)
     return data
 }
+
+
+
 
 //导出
 export {

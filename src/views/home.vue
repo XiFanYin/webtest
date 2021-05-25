@@ -27,7 +27,7 @@
             v-for="(submenu, subindex) in item.submenu"
             :key="subindex"
             :index="submenu.path"
-            >{{ submenu.name }}</el-menu-item
+            ><span>{{ submenu.name }}</span></el-menu-item
           >
         </el-submenu>
       </el-menu>
@@ -74,7 +74,6 @@
 export default {
   data() {
     return {
-       
       //菜单数据
       menudata: [],
       //主题颜色默认值
@@ -86,6 +85,8 @@ export default {
     //左导航点击
     selecet(index) {
       this.$router.push(index);
+
+
     },
     //切换主题点击
     changeTheme(themeItem) {
@@ -195,4 +196,6 @@ $themeColor: var(--theme-color, #545c64);
 .el-dropdown-menu {
   top: 42px !important;
 }
+
+
 </style>
