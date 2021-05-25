@@ -10,7 +10,7 @@ const instance = axios.create({
 
 /* 创建token */
 let  setToken = function () {
-    instance.defaults.headers.common['token'] = sessionStorage.getItem("token");  
+    instance.defaults.headers.common['token'] = localStorage.getItem("token");  
 }
 
 

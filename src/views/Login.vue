@@ -73,7 +73,7 @@ export default {
           //发起网络请求
           this.$get("/login").then(res => {
                //保存token
-              sessionStorage.setItem("token",res.token)
+              localStorage.setItem("token",res.token)
               //给网络请求设置token
               this.$setToken()
              // 保存用户登录名

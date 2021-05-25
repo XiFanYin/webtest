@@ -81,7 +81,7 @@ router.beforeEach((to, from, next) => {
   //如果访问登录页，放行
   if (to.path == "/login") return next()
   //否则，判断当前用户是否登录
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   //如果有token，放行
   if (token) {
     next()

@@ -97,7 +97,7 @@ export default {
     //退出登录
     loginOut(){
        //清空token
-        sessionStorage.setItem("token","")
+        localStorage.setItem("token","")
         //跳转到登录页面
         this.$router.replace("/login")
     }
