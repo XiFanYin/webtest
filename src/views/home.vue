@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <div class="lift">
-
-
-      <div class="logo" :style="{background:themeColor}"><span>欢迎光临</span></div>
+      <div class="logo" :style="{ background: themeColor }">
+        <span>欢迎光临</span>
+      </div>
 
       <el-menu
         :default-active="$route.path"
@@ -12,7 +12,8 @@
         :background-color="themeColor"
         text-color="#fff"
         @select="selecet"
-        active-text-color="#ffd04b">
+        active-text-color="#ffd04b"
+      >
         <!-- 循环遍历菜单数据 -->
         <el-submenu
           v-for="(item, index) in menudata"
@@ -37,19 +38,9 @@
 
     <div class="right">
       <!-- title -->
-      <div class="nav_bar" :style="{background:themeColor}">
-        <div class="user">
-          <el-dropdown trigger="click">
-            <div class="el-dropdown-link">
-              <img src="../assets/userpic.jpg" class="picture" />
-            </div>
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>个人中心</el-dropdown-item>
-                 <el-dropdown-item>修改密码</el-dropdown-item>
-              <el-dropdown-item @click.native="loginOut()">退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
+      <div class="nav_bar" :style="{ background: themeColor }">
+        <i class="el-icon-s-home homeicon" @click="goHomedefult"></i>
+        <div style="flex: 1"></div>
 
         <div class="theme">
           <el-dropdown trigger="click">
@@ -62,6 +53,21 @@
                 :key="index"
                 @click.native="changeTheme(themeitem)"
                 >{{ themeitem.name }}</el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+
+        <div class="user">
+          <el-dropdown trigger="click">
+            <div class="el-dropdown-link">
+              <img src="../assets/userpic.jpg" class="picture" />
+            </div>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>个人中心</el-dropdown-item>
+              <el-dropdown-item>修改密码</el-dropdown-item>
+              <el-dropdown-item @click.native="loginOut()"
+                >退出登录</el-dropdown-item
               >
             </el-dropdown-menu>
           </el-dropdown>
@@ -79,7 +85,7 @@ export default {
       //菜单数据
       menudata: [],
       //主题颜色默认值
-      themeColor: localStorage.getItem("themecolor")||"#545c64"
+      themeColor: localStorage.getItem("themecolor") || "#545c64",
     };
   },
 
@@ -92,14 +98,18 @@ export default {
     changeTheme(themeItem) {
       this.themeColor = themeItem.value;
       //保存主题颜色
-      localStorage.setItem("themecolor",themeItem.value)
+      localStorage.setItem("themecolor", themeItem.value);
     },
     //退出登录
-    loginOut(){
-       //清空token
-        localStorage.setItem("token","")
-        //跳转到登录页面
-        this.$router.replace("/login")
+    loginOut() {
+      //清空token
+      localStorage.setItem("token", "");
+      //跳转到登录页面
+      this.$router.replace("/login");
+    },
+    //跳转到大屏显示
+    goHomedefult(){
+    this.$router.replace("/");
     }
   },
   mounted() {
@@ -112,8 +122,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 .home {
   width: 100%;
   height: 100vh;
@@ -126,8 +134,9 @@ export default {
       color: #ffffff;
       line-height: 70px;
       font-size: 22px;
-      span{
-        border: solid 1px #EEEEEE;
+      border-right: 1px solid #aaaaaa;
+      span {
+        border: solid 1px #eeeeee;
         padding: 5px;
       }
     }
@@ -148,18 +157,23 @@ export default {
       width: 100%;
       height: 70px;
       display: flex;
-      flex-direction: row-reverse;
-    
+      .homeicon {
+        font-size: 28px;
+        color: #ffffff;
+        line-height: 70px;
+        padding-left: 10px;
+      }
+
       .user {
         margin-right: 50px;
         height: 70px;
-    
+
         .el-dropdown-link {
           color: #ffffff;
           font-size: 18px;
-           height: 70px;
-           display: flex;
-           align-items: center;
+          height: 70px;
+          display: flex;
+          align-items: center;
           .picture {
             width: 30px;
             height: 30px;
@@ -193,6 +207,4 @@ export default {
 .el-dropdown-menu {
   top: 42px !important;
 }
-
-
 </style>
