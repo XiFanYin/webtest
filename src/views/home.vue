@@ -42,6 +42,8 @@
               <img src="../assets/userpic.jpg" class="picture" />
             </div>
             <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>个人中心</el-dropdown-item>
+                 <el-dropdown-item>修改密码</el-dropdown-item>
               <el-dropdown-item @click.native="loginOut()">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -94,7 +96,10 @@ export default {
     },
     //退出登录
     loginOut(){
-
+       //清空token
+        sessionStorage.setItem("token","")
+        //跳转到登录页面
+        this.$router.replace("/login")
     }
   },
   mounted() {
@@ -138,7 +143,6 @@ $themeColor: var(--theme-color, #545c64);
   }
   .right {
     flex: 1;
-    border: 1px solid #000;
     .nav_bar {
       width: 100%;
       height: 70px;

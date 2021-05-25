@@ -15,7 +15,7 @@
         </el-form-item>
 
       <el-form-item label="密码" prop="loginpwd">
-         <el-input v-model="logindata.loginpwd" autocomplete="off"></el-input>
+         <el-input v-model="logindata.loginpwd" autocomplete="off"  type="password"></el-input>
        </el-form-item>
 
       <el-form-item>
@@ -76,8 +76,14 @@ export default {
               sessionStorage.setItem("token",res.token)
               //给网络请求设置token
               this.$setToken()
-              //跳转页面
-              // this.$router.push({name:"home",params:{id:"123"}})
+             // 保存用户登录名
+             localStorage.setItem("loginname",this.logindata.loginname)
+             if(this.logindata.checked){
+                 localStorage.setItem("loginpwd",this.logindata.loginpwd)
+             }else{
+                localStorage.setItem("loginpwd","")
+             }
+             //跳转页面
             this.$router.push({ path: '/home'});
            })
         } else {
@@ -85,6 +91,13 @@ export default {
         }
       });
     },
+  },
+  mounted() {
+    this.logindata.loginname =  localStorage.getItem("loginname")
+    this.logindata.loginpwd = localStorage.getItem("loginpwd")
+    if(this.logindata.loginpwd){
+      this.logindata.checked = true
+    }
   },
 
 
