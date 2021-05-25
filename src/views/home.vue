@@ -6,7 +6,7 @@
       <el-menu
         unique-opened
         class="el-menu-vertical-demo mymenu"
-        background-color="#545c64"
+        :background-color="themeColor"
         text-color="#fff"
         @select="selecet"
         active-text-color="#ffd04b"
@@ -36,13 +36,29 @@
     <div class="right">
       <!-- title -->
       <div class="nav_bar">
+        <div class="user">
+          <el-dropdown trigger="click">
+            <div class="el-dropdown-link">
+              <img src="../assets/userpic.jpg" class="picture" />
+            </div>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click.native="loginOut()">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+
         <div class="theme">
           <el-dropdown trigger="click">
             <span class="el-dropdown-link">
               主题<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>红色</el-dropdown-item>
+              <el-dropdown-item
+                v-for="(themeitem, index) in $store.state.theme"
+                :key="index"
+                @click.native="changeTheme(themeitem)"
+                >{{ themeitem.name }}</el-dropdown-item
+              >
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -58,14 +74,28 @@ export default {
     return {
       //菜单数据
       menudata: [],
+      //主题颜色默认值
+      themeColor: "#545c64",
     };
   },
 
   methods: {
-    //某个条目被点击
+    //左导航点击
     selecet(index) {
       this.$router.push(index);
     },
+    //切换主题点击
+    changeTheme(themeItem) {
+      this.themeColor = themeItem.value;
+      //改变scss定义的变量值
+      document
+        .getElementsByTagName("body")[0]
+        .style.setProperty("--theme-color", this.themeColor);
+    },
+    //退出登录
+    loginOut(){
+
+    }
   },
   mounted() {
     //请求菜单
@@ -77,6 +107,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+//定义css变量，--theme-color,为js操作此变量需要用到的KEY
+$themeColor: var(--theme-color, #545c64);
+
 .home {
   width: 100%;
   height: 100vh;
@@ -109,37 +142,49 @@ export default {
     .nav_bar {
       width: 100%;
       height: 70px;
-      background: #545c64;
       display: flex;
       flex-direction: row-reverse;
+      //引用变量
+      background: $themeColor;
+      //
+      .user {
+        margin-right: 50px;
+        height: 70px;
+    
+        .el-dropdown-link {
+          color: #ffffff;
+          font-size: 18px;
+           height: 70px;
+           display: flex;
+           align-items: center;
+          .picture {
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+            border-radius: 50%;
+          }
+        }
+      }
+
+      .theme {
+        margin-right: 30px;
+        .el-dropdown-link {
+          cursor: pointer;
+          color: #ffffff;
+          font-size: 18px;
+          line-height: 70px;
+        }
+        .el-icon-arrow-down {
+          font-size: 12px;
+        }
+      }
     }
   }
 
-  .theme {
-    margin-right: 50px;
-  }
-
   /* 修改ui库样式 */
-  /*   ::v-deep .el-icon-arrow-down:before {
+  /* ::v-deep .el-icon-arrow-down:before {
     content: "";
   } */
-}
-
-.el-dropdown-link {
-  cursor: pointer;
-  color: #ffffff;
-  font-size: 18px;
-  line-height: 70px;
-}
-.el-icon-arrow-down {
-  font-size: 12px;
-}
-
-.demonstration {
-  display: block;
-  color: #545c64;
-  font-size: 18px;
-  margin-bottom: 20px;
 }
 
 .el-dropdown-menu {

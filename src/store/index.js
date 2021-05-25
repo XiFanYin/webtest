@@ -11,10 +11,19 @@ export default new Vuex.Store({
     //声明成对象，里边放动态数据
     obj: {},
     //主题数据,默认数据
-    theme: {
-      default: "545c64",
-      blue: "#101f30",
-      red: "#7c1823"}
+    theme: [{
+        name: "默认灰",
+        value: "#545c64"
+      },
+      {
+        name: "天空蓝",
+        value: "#101f30"
+      },
+      {
+        name: "中国红",
+        value: "#7c1823"
+      },
+    ]
   },
   mutations: {
     setStateVal(state, obj) {
