@@ -1,5 +1,7 @@
 /* 请求工具类 */
 import axios from 'axios'
+/* 单独引入错误提示 */
+import { Message } from 'element-ui';
 
 //初始化对象
 const instance = axios.create({
@@ -35,7 +37,8 @@ instance.interceptors.response.use(function (response) {
       //根据宏任务和微任务执行顺序
       setTimeout(() => {
         if (isHandlerError) {
-            console.log("统一处理代码逻辑")  
+            //统一错误处理
+            Message({showClose: true,message: error, type: 'error' });
         }
     })
     //方法赋值给对象
