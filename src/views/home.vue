@@ -4,13 +4,13 @@
       <div class="logo">欢迎光临</div>
 
       <el-menu
+        :default-active="$route.path"
         unique-opened
         class="el-menu-vertical-demo mymenu"
         :background-color="themeColor"
         text-color="#fff"
         @select="selecet"
-        active-text-color="#ffd04b"
-      >
+        active-text-color="#ffd04b">
         <!-- 循环遍历菜单数据 -->
         <el-submenu
           v-for="(item, index) in menudata"
@@ -74,6 +74,7 @@
 export default {
   data() {
     return {
+       
       //菜单数据
       menudata: [],
       //主题颜色默认值

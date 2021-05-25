@@ -8,7 +8,7 @@ const routes = [
   /* 配置页面重定向 */
   {
     path: "/",
-    redirect: "/login"
+    redirect: "/home"
   },
   {
     path: "/login",
