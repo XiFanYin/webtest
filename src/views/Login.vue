@@ -71,7 +71,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //发起网络请求
-          this.$get("/login1").then(res => {
+          this.$get("/login").then(res => {
                //保存token
               localStorage.setItem("token",res.token)
               //给网络请求设置token
@@ -87,7 +87,7 @@ export default {
             this.$router.push({ path: '/home'});
            }).catch(error=>{
              //隐藏全局错误处理，当前页面去处理
-             error.hideNormalError()
+            //  error.hideNormalError()
            })
         } else {
           return false;

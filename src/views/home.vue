@@ -1,7 +1,9 @@
 <template>
   <div class="home">
     <div class="lift">
-      <div class="logo">欢迎光临</div>
+
+
+      <div class="logo" :style="{background:themeColor}"><span>欢迎光临</span></div>
 
       <el-menu
         :default-active="$route.path"
@@ -35,7 +37,7 @@
 
     <div class="right">
       <!-- title -->
-      <div class="nav_bar">
+      <div class="nav_bar" :style="{background:themeColor}">
         <div class="user">
           <el-dropdown trigger="click">
             <div class="el-dropdown-link">
@@ -77,7 +79,7 @@ export default {
       //菜单数据
       menudata: [],
       //主题颜色默认值
-      themeColor: "#545c64",
+      themeColor: localStorage.getItem("themecolor")||"#545c64"
     };
   },
 
@@ -85,16 +87,12 @@ export default {
     //左导航点击
     selecet(index) {
       this.$router.push(index);
-
-
     },
     //切换主题点击
     changeTheme(themeItem) {
       this.themeColor = themeItem.value;
-      //改变scss定义的变量值
-      document
-        .getElementsByTagName("body")[0]
-        .style.setProperty("--theme-color", this.themeColor);
+      //保存主题颜色
+      localStorage.setItem("themecolor",themeItem.value)
     },
     //退出登录
     loginOut(){
@@ -114,8 +112,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-//定义css变量，--theme-color,为js操作此变量需要用到的KEY
-$themeColor: var(--theme-color, #545c64);
+
 
 .home {
   width: 100%;
@@ -124,13 +121,15 @@ $themeColor: var(--theme-color, #545c64);
   .lift {
     width: 200px;
     .logo {
-      width: 100%;
-      height: 100px;
-      background-color: darkcyan;
+      height: 70px;
       text-align: center;
       color: #ffffff;
-      line-height: 100px;
-      font-size: 36px;
+      line-height: 70px;
+      font-size: 22px;
+      span{
+        border: solid 1px #EEEEEE;
+        padding: 5px;
+      }
     }
 
     .mymenu {
@@ -150,9 +149,7 @@ $themeColor: var(--theme-color, #545c64);
       height: 70px;
       display: flex;
       flex-direction: row-reverse;
-      //引用变量
-      background: $themeColor;
-      //
+    
       .user {
         margin-right: 50px;
         height: 70px;
