@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <router-view  v-loading="$store.state.obj.loading"/>
+      <router-view  v-loading="$store.state.obj.scopeloading"/>
     </div>
   </div>
 </template>
