@@ -126,9 +126,9 @@ export default {
   height: 100vh;
   display: flex;
   .lift {
-    display: flex;
-    flex-direction: column;
+    height: 100vh;
     width: 200px;
+    overflow: hidden ;
     .logo {
       height: 70px;
       text-align: center;
@@ -136,6 +136,7 @@ export default {
       line-height: 70px;
       font-size: 22px;
       border-right: 1px solid #aaaaaa;
+      border-bottom: 1px solid #aaaaaa;
       span {
         border: solid 1px #eeeeee;
         padding: 5px;
@@ -143,7 +144,9 @@ export default {
     }
 
     .mymenu {
-      flex: 1;
+      height: calc(100vh - 70px);
+      overflow-y: scroll;
+       width: 220px;
       border: none; /* element有这个属性，给他干掉 */
       .icon {
         width: 16px;
