@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <router-view />
+      <router-view  v-loading="$store.state.obj.loading"/>
     </div>
   </div>
 </template>
@@ -114,7 +114,7 @@ export default {
   },
   mounted() {
     //请求菜单
-    this.$get("/menu").then((res) => {
+    this.$get("/menu1").then((res) => {
       this.menudata = res.menudata;
     });
   },

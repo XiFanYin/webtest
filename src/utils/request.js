@@ -2,6 +2,8 @@
 import axios from 'axios'
 /* 单独引入错误提示 */
 import { Message } from 'element-ui';
+/* 导入全局vuex，因为是单例模式，所以可以导入*/
+import store from '../store'
 
 //初始化对象
 const instance = axios.create({
@@ -20,6 +22,7 @@ let  setToken = function () {
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
+    store.commit('setStateVal',{loading:true} )
     return config;
 }, function (error) {
     // 对请求错误做些什么
@@ -28,9 +31,15 @@ instance.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
+    setTimeout(() => {
+        store.commit('setStateVal',{loading:false} )  
+    })
     // 对响应数据做点什么
     return response;
 }, function (error) {
+    setTimeout(() => {
+        store.commit('setStateVal',{loading:false} )  
+    })
     // 对响应错误做点什么
       let  isHandlerError =  true;
       const hideNormalError = () => isHandlerError = false
