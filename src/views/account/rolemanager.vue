@@ -4,7 +4,7 @@
       <el-button type="primary" @click="drawer = !drawer">添加角色</el-button>
     </div>
 
-    <el-table :data="tableData" style="width: 100%" stripe border  :header-cell-style="{textAlign: 'center'}"   :cell-style="{ textAlign: 'center' }">
+    <el-table height="85vh" :data="tableData" style="width: 100%" stripe border  :header-cell-style="{textAlign: 'center'}"   :cell-style="{ textAlign: 'center' }">
       <el-table-column label="角色编号" min-width="1">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.roalId }}</span>
@@ -83,11 +83,14 @@ export default {
 <style lang="scss" scoped>
 .search {
   padding: 8px;
+  height: 40px;
 }
 
 .role {
   background: #ffffff;
   margin: 10px 10px;
+  overflow: hidden;
 }
+
 
 </style>
