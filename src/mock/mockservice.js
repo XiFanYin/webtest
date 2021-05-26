@@ -13,7 +13,7 @@ Mock.mock('http://test.demo.com/login', {
 
 //请求左侧菜单接口
 Mock.mock('http://test.demo.com/menu', {
-   menudata:  [{
+  menudata: [{
       menu: "账号管理",
       index: "account",
       submenu: [{
@@ -43,21 +43,49 @@ Mock.mock('http://test.demo.com/menu', {
       menu: "客户管理",
       index: "product",
       submenu: [{
-          name: "客户管理",
-          path: "/addproduct"
-        }
-      ]
+        name: "客户管理",
+        path: "/addproduct"
+      }]
     },
     {
       menu: "权限管理",
       index: "volunteer",
       submenu: [{
-          name: "权限管理",
-          path: "/volunteermessage"
-        }
-      ]
+        name: "权限管理",
+        path: "/volunteermessage"
+      }]
     }
 
   ]
 
+});
+
+
+//登录接口
+Mock.mock('http://test.demo.com/gettabledata', {
+  'data': [{
+      roalId: "0",
+      roalname: "系统管理员"
+    },
+    {
+      roalId: "1",
+      roalname: "运维A"
+    },
+    {
+      roalId: "2",
+      roalname: "运维B"
+    },
+    {
+      roalId: "3",
+      roalname: "运维C"
+    },
+    {
+      roalId: "4",
+      roalname: "财务R"
+    }
+
+
+
+
+  ],
 });
