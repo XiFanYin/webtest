@@ -4,7 +4,6 @@
       <div class="logo" :style="{ background: themeColor }">
         <span>欢迎光临</span>
       </div>
-
       <el-menu
         :default-active="$route.path"
         unique-opened
@@ -127,6 +126,8 @@ export default {
   height: 100vh;
   display: flex;
   .lift {
+    display: flex;
+    flex-direction: column;
     width: 200px;
     .logo {
       height: 70px;
@@ -142,7 +143,7 @@ export default {
     }
 
     .mymenu {
-      height: 100%;
+      flex: 1;
       border: none; /* element有这个属性，给他干掉 */
       .icon {
         width: 16px;
