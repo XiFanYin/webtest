@@ -2,7 +2,7 @@
   <div class="login_main">
 
     <div class="logo">
-      <img src="../assets/logo.png" alt="" />
+         <img src="@/assets/logo.png" alt="" />
     </div>
 
     <div class="loginfrom">
@@ -109,7 +109,7 @@ export default {
 
 <style lang="scss" scoped>
 .login_main {
-  background-image: url(../assets/login_bg.jpg);
+  background-image: url(../../assets/login_bg.jpg);
   height: 100vh;
   background-repeat: no-repeat;
   background-size: 100% 100%;

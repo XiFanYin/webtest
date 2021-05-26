@@ -12,7 +12,7 @@ const routes = [
   },
   {
     path: "/login",
-    component: () => import('../views/Login.vue'),
+    component: () => import('../views/login/Login.vue'),
     meta: {
       title: "登录"
     } //设置当前路由的元数据
@@ -20,32 +20,32 @@ const routes = [
   {
     name: "home",
     path: "/home",
-    component: () => import('../views/home.vue'),
+    component: () => import('../views/home/home.vue'),
     meta: {
       title: "首页"
     }, //设置当前路由的元数据
     children: [{
         name: "homedefault",
         path: "/",
-        component: () => import('../views/homedefault.vue'),
+        component: () => import('../views/home/homedefault.vue'),
         meta: {
           title: "首页"
         }
       },
       {
-        name: "menbermessage",
-        path: "/menbermessage",
-        component: () => import('../views/menbermessage.vue'),
+        name: "rolemanager",
+        path: "/rolemanager",
+        component: () => import('../views/account/rolemanager.vue'),
         meta: {
-          title: "会员信息"
+          title: "角色管理"
         }
       },
       {
         name: "menberhealth",
         path: "/menberhealth",
-        component: () => import('../views/menberhealth.vue'),
+        component: () => import('../views/account/accountmanager.vue'),
         meta: {
-          title: "会员健康"
+          title: "账号管理"
         }
       }
     ]
@@ -54,7 +54,7 @@ const routes = [
   {
     name: "404",
     path: "*",
-    component: () => import('../views/404.vue'),
+    component: () => import('../views/error/404.vue'),
     meta: {
       title: "你所访问的页面不存在"
     }

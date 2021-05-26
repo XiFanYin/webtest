@@ -1,7 +1,7 @@
 <template>
   <div class="root">
     <div  class="rootson" >
-    <img src="../assets/404.png" alt="" />
+    <img src="../../assets/404.png" alt="" />
      <p class="tip">你所访问的页面不存在！</p> 
      <p>资源不存在或者没有访问权限，<router-link to="/">点击这里</router-link>返回首页</p> 
  

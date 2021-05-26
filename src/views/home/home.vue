@@ -22,7 +22,7 @@
         >
           <!-- 插槽标题title -->
           <template slot="title">
-            <img src="../assets/logo.png" class="icon" />
+            <img src="@/assets/logo.png" class="icon" />
             <span>{{ item.menu }}</span>
           </template>
           <!-- 循环遍历子标题 -->
@@ -61,7 +61,7 @@
         <div class="user">
           <el-dropdown trigger="click">
             <div class="el-dropdown-link">
-              <img src="../assets/userpic.jpg" class="picture" />
+              <img src="@/assets/userpic.jpg" class="picture" />
             </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人中心</el-dropdown-item>
@@ -114,7 +114,7 @@ export default {
   },
   mounted() {
     //请求菜单
-    this.$get("/menu1").then((res) => {
+    this.$get("/menu").then((res) => {
       this.menudata = res.menudata;
     });
   },

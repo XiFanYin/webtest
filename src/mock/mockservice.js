@@ -14,54 +14,46 @@ Mock.mock('http://test.demo.com/login', {
 //请求左侧菜单接口
 Mock.mock('http://test.demo.com/menu', {
    menudata:  [{
-      menu: "会员管理",
-      index: "menber",
+      menu: "账号管理",
+      index: "account",
       submenu: [{
-          name: "会员信息",
-          path: "/menbermessage"
+          name: "角色管理",
+          path: "/rolemanager"
         },
         {
-          name: "会员健康",
+          name: "账号管理",
           path: "/menberhealth"
         }
       ]
     },
     {
-      menu: "资金管理",
+      menu: "客房管理",
       index: "money",
       submenu: [{
-          name: "充值中心",
+          name: "类型管理",
           path: "/addmoney"
         },
         {
-          name: "收银中心",
+          name: "客房管理",
           path: "/getmoney"
         }
       ]
     },
     {
-      menu: "商品管理",
+      menu: "客户管理",
       index: "product",
       submenu: [{
-          name: "新品上架",
+          name: "客户管理",
           path: "/addproduct"
-        },
-        {
-          name: "库存管理",
-          path: "/productmanager"
         }
       ]
     },
     {
-      menu: "志愿者管理",
+      menu: "权限管理",
       index: "volunteer",
       submenu: [{
-          name: "志愿者档案",
+          name: "权限管理",
           path: "/volunteermessage"
-        },
-        {
-          name: "志愿者荣誉",
-          path: "/volunteerscore"
         }
       ]
     }
