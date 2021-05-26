@@ -49,6 +49,15 @@ const routes = [
         }
       }
     ]
+  },
+  /* 没有匹配到任何页面，就跳转到404页面 */
+  {
+    name: "404",
+    path: "*",
+    component: () => import('../views/404.vue'),
+    meta: {
+      title: "你所访问的页面不存在"
+    }
   }
 
 ]

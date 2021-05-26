@@ -158,7 +158,7 @@ export default {
       height: 70px;
       display: flex;
       .homeicon {
-        font-size: 28px;
+        font-size: 26px;
         color: #ffffff;
         line-height: 70px;
         padding-left: 10px;
