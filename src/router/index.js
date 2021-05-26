@@ -4,6 +4,15 @@ import VueRouter from 'vue-router'
 //使用路由插件
 Vue.use(VueRouter)
 
+
+//在router.js文件加入，解决element问题可以完美的解决
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
+
+
 const routes = [
   /* 配置页面重定向 */
   {
@@ -70,12 +79,6 @@ const router = new VueRouter({
   routes
 })
 
-
-//在router.js文件加入，解决element问题可以完美的解决
-const originalPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
-}
 
 
 

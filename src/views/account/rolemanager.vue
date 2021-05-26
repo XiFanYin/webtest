@@ -4,7 +4,7 @@
       <el-button type="primary" @click="drawer = !drawer">添加角色</el-button>
     </div>
 
-    <el-table height="85vh" :data="tableData" style="width: 100%" stripe border  :header-cell-style="{textAlign: 'center'}"   :cell-style="{ textAlign: 'center' }">
+    <el-table height="85vh" :data="tableData" style="width: 99.6%" stripe border  :header-cell-style="{textAlign: 'center'}"   :cell-style="{ textAlign: 'center' }">
       <el-table-column label="角色编号" min-width="1">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.roalId }}</span>
@@ -16,8 +16,6 @@
           <span style="margin-left: 10px">{{ scope.row.roalname }}</span>
         </template>
       </el-table-column>
-
-
 
       <el-table-column label="操作" min-width="1">
         <template slot-scope="scope">
@@ -32,6 +30,7 @@
           >
         </template>
       </el-table-column>
+      
     </el-table>
 
     <el-drawer

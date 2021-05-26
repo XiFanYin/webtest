@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <router-view v-loading="$store.state.obj.scopeloading"/>
+      <router-view v-loading="$store.state.obj.scopeloading" />
     </div>
   </div>
 </template>
@@ -107,9 +107,11 @@ export default {
       this.$router.replace("/login");
     },
     //跳转到大屏显示
-    goHomedefult(){
-    this.$router.replace("/");
-    }
+    goHomedefult() {
+      if (this.$route.path != "/home") {
+        this.$router.replace("/");
+      }
+    },
   },
   mounted() {
     //请求菜单
@@ -128,7 +130,7 @@ export default {
   .lift {
     height: 100vh;
     width: 200px;
-    overflow: hidden ;
+    overflow: hidden;
     .logo {
       height: 70px;
       text-align: center;
@@ -146,7 +148,7 @@ export default {
     .mymenu {
       height: calc(100vh - 70px);
       overflow-y: scroll;
-       width: 220px;
+      width: 220px;
       border: none; /* element有这个属性，给他干掉 */
       .icon {
         width: 16px;
