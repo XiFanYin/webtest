@@ -1,7 +1,6 @@
 <template>
   <div class="body">
-    {{$store.state.loadingbackground}}
-    <router-view  v-loading="$store.state.fullloading"/>
+    <router-view  v-loading="$store.state.fullloading" />
   </div>
 </template>
 
