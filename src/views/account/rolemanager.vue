@@ -125,7 +125,8 @@ export default {
       //请求删除，删除当前角色，请求列表数据
     },
     drawerClose(done) {
-      this.roledata.rolename = "";
+      //清空表单
+      this.$refs.formelement.resetFields();
       done();
     },
     addrole() {
