@@ -1,30 +1,22 @@
 /* 请求工具类 */
 import axios from 'axios'
 /* 单独引入错误提示 */
-import {
-    Message
-} from 'element-ui';
+import {Message} from 'element-ui';
 /* 导入全局vuex，因为是单例模式，所以可以导入*/
 import store from '../store'
-
-//定义一些需要显示全屏加载的url
-let fullscreenurl = ["/login", "/menu"]
-//定义一些页面处理loading的url
-let customurl = []
-
+/* 导入全局配置文件 */
+import {fullscreenurl,customurl,baseURL} from '../config/index'
 
 //初始化对象
 const instance = axios.create({
-    baseURL: 'http://test.demo.com',
+    baseURL: baseURL,
     timeout: 30000
 });
-
 
 /* 创建token */
 let setToken = function () {
     instance.defaults.headers.common['token'] = localStorage.getItem("token");
 }
-
 
 
 // 添加请求拦截器
