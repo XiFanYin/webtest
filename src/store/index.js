@@ -27,7 +27,7 @@ export default new Vuex.Store({
     //全屏loading显示标记
     fullloading: false,
     //局部loading显示
-    scopeloading:false
+    scopeloading: false,
   },
   mutations: {
     setStateVal(state, obj) {
@@ -35,14 +35,14 @@ export default new Vuex.Store({
       state.obj = Object.assign({}, state.obj, obj)
     },
     //设置全屏loading是否显示
-    setfullscreenloading(state,fullloading) {
+    setfullscreenloading(state, fullloading) {
       state.fullloading = fullloading
-   },
-   //设置局部loading是否显示
-   setscopescreenloading(state,scopeoading) {
-    state.scopeloading = scopeoading
-  }
-    
+    },
+    //设置局部loading是否显示
+    setscopescreenloading(state, scopeoading) {
+      state.scopeloading = scopeoading
+    },
+   
 
   },
   //配置插件解决刷新数据不消失

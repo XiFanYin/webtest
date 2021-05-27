@@ -65,6 +65,7 @@ function dismassAllloading() {
     //所有loading全部消失
     store.commit('setfullscreenloading', false)
     store.commit('setscopescreenloading', false)
+
 }
 
 /* 定义get请求 */
