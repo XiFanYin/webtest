@@ -25,7 +25,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" min-width="1">
+      <el-table-column label="操作" width="180px">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
             >编辑</el-button
@@ -60,7 +60,7 @@
           <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item class="btnfather" label-width="0px">
+        <el-form-item class="btnfather" label-width="100px">
           <!-- 调用提交方法，并传递ref字符串 -->
           <el-button
             class="btn"
@@ -172,7 +172,7 @@ export default {
   text-align: center;
   margin-top: 100px;
   .btn {
-    width: 440px;
+    width: 80%;
   }
 }
 

@@ -17,7 +17,7 @@ export default new Vuex.Store({
       },
       {
         name: "天空蓝",
-        value: "#101f30"
+        value: "#4EB6F8"
       },
       {
         name: "中国红",
