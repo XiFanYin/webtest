@@ -4,7 +4,15 @@
       <el-button type="primary" @click="drawer = !drawer">添加角色</el-button>
     </div>
 
-    <el-table height="85vh" :data="tableData" style="width: 99.6%" stripe border  :header-cell-style="{textAlign: 'center'}"   :cell-style="{ textAlign: 'center' }">
+    <el-table
+      height="85vh"
+      :data="tableData"
+      style="width: 99.6%"
+      stripe
+      border
+      :header-cell-style="{ textAlign: 'center' }"
+      :cell-style="{ textAlign: 'center' }"
+    >
       <el-table-column label="角色编号" min-width="1">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.roalId }}</span>
@@ -30,15 +38,38 @@
           >
         </template>
       </el-table-column>
-      
     </el-table>
 
     <el-drawer
-      title="我是标题"
+      title="添加角色"
       :visible.sync="drawer"
       :direction="direction"
-      :before-close="handleClose"
+      :before-close="drawerClose"
     >
+      <!-- 需要配置module数据和校验数据对象，并设置ref，为下边获取dom做准备-->
+      <el-form
+        :model="roledata"
+        :rules="rolerules"
+        ref="formelement"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
+        <!-- prop 指向的是校验数据的key -->
+        <el-form-item label="角色名称" prop="rolename">
+          <!-- 绑定数据对象 -->
+          <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item class="btnfather" label-width="0px">
+          <!-- 调用提交方法，并传递ref字符串 -->
+          <el-button
+            class="btn"
+            type="primary"
+            @click="submitForm('formelement')"
+            >提交</el-button
+          >
+        </el-form-item>
+      </el-form>
     </el-drawer>
   </div>
 </template>
@@ -48,10 +79,26 @@ export default {
     this.gettabledata();
   },
   data() {
+    var validaterolename = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入角色名称"));
+      } else {
+        callback();
+      }
+    };
     return {
       drawer: false,
       direction: "rtl",
       tableData: [],
+      //添加角色数据
+      roledata: {
+        rolename: "",
+      },
+      //表单验证数据
+      rolerules: {
+        //验证用户名，key必须和表单数据key一致，失去焦点时机去验证
+        rolename: [{ validator: validaterolename, trigger: "blur" }],
+      },
     };
   },
   methods: {
@@ -68,13 +115,20 @@ export default {
     handleDelete(index, row) {
       console.log(index, row);
     },
-     handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      }
+    drawerClose(done) {
+      done();
+    },
+
+
+      submitForm(formName) {
+       this.$refs[formName].validate((valid) => {
+        if (valid) {
+         
+        } else {
+          return false;
+        }
+      });
+    },
   },
 };
 </script>
@@ -90,6 +144,15 @@ export default {
   margin: 10px 10px;
   overflow: hidden;
 }
-
-
+.el-form{
+  margin-right: 20px;
+}
+  .btnfather{
+     text-align: center;
+     margin-top: 100px;
+     .btn{
+        width: 440px;
+     }
+  
+  }
 </style>

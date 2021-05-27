@@ -14,7 +14,15 @@ export default{
              },
              $setToken(){
                 setToken()
+             },
+             $con_f(message,success){
+               this.$confirm(message)
+               .then(_ => {
+                  success()
+               })
+               .catch(_ => {});
              }
+
          },
       })
     

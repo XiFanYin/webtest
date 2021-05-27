@@ -9,8 +9,8 @@ import store from '../store'
 
 //定义一些需要显示全屏加载的url
 let fullscreenurl = ["/login", "/menu"]
-
-
+//定义一些页面处理loading的url
+let customurl = []
 
 
 //初始化对象
@@ -29,6 +29,10 @@ let setToken = function () {
 
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
+    //说明需要页面自定义处理加载
+    if (customurl.indexOf(config.url) > -1) {
+
+    }else{
     //如果需要全屏loading
     if (fullscreenurl.indexOf(config.url) > -1) {
         store.commit('setStateVal', {
@@ -40,8 +44,7 @@ instance.interceptors.request.use(function (config) {
             scopeloading: true
         })
     }
-
-
+    }
     return config;
 }, function (error) {
     // 对请求错误做些什么
@@ -62,7 +65,7 @@ instance.interceptors.response.use(function (response) {
     // 对响应数据做点什么
     return response;
 }, function (error) {
-     //让loading消失
+    //让loading消失
     setTimeout(() => {
         store.commit('setStateVal', {
             fullloading: false
