@@ -105,6 +105,8 @@ export default {
   methods: {
     //获取table数据
     gettabledata() {
+      //显示局部loading
+      this.$showscopescreenloading();
       this.$get("/gettabledata").then((res) => {
         this.tableData = res.data;
       });
@@ -177,8 +179,7 @@ export default {
 }
 
 .el-drawer__wrapper {
-    position: fixed;
-    top: 70PX;
-  
+  position: fixed;
+  top: 70px;
 }
 </style>

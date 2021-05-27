@@ -1,11 +1,15 @@
 /* 请求工具类 */
 import axios from 'axios'
 /* 单独引入错误提示 */
-import {Message} from 'element-ui';
+import {
+    Message
+} from 'element-ui';
 /* 导入全局vuex，因为是单例模式，所以可以导入*/
 import store from '../store'
-/* 导入全局配置文件 */
-import {fullscreenurl,customurl,baseURL} from '../config/index'
+//导入全局配置
+import {
+    baseURL
+} from '../config/index'
 
 //初始化对象
 const instance = axios.create({
@@ -21,22 +25,6 @@ let setToken = function () {
 
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
-    //说明需要页面自定义处理加载
-    if (customurl.indexOf(config.url) > -1) {
-
-    }else{
-    //如果需要全屏loading
-    if (fullscreenurl.indexOf(config.url) > -1) {
-        store.commit('setStateVal', {
-            fullloading: true
-        })
-    } else {
-        //否则就二级局部loading
-        store.commit('setStateVal', {
-            scopeloading: true
-        })
-    }
-    }
     return config;
 }, function (error) {
     // 对请求错误做些什么
@@ -45,27 +33,13 @@ instance.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
-    //让loading消失
-    setTimeout(() => {
-        store.commit('setStateVal', {
-            fullloading: false
-        })
-        store.commit('setStateVal', {
-            scopeloading: false
-        })
-    })
+    //所有loading全部消失
+    dismassAllloading()
     // 对响应数据做点什么
     return response;
 }, function (error) {
-    //让loading消失
-    setTimeout(() => {
-        store.commit('setStateVal', {
-            fullloading: false
-        })
-        store.commit('setStateVal', {
-            scopeloading: false
-        })
-    })
+    //所有loading全部消失
+    dismassAllloading()
     // 对响应错误做点什么
     let isHandlerError = true;
     const hideNormalError = () => isHandlerError = false
@@ -86,6 +60,12 @@ instance.interceptors.response.use(function (response) {
 });
 
 
+
+function dismassAllloading() {
+    //所有loading全部消失
+    store.commit('setfullscreenloading', false)
+    store.commit('setscopescreenloading', false)
+}
 
 /* 定义get请求 */
 let get = async function (url, params) {

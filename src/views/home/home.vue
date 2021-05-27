@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <router-view v-loading="$store.state.obj.scopeloading" />
+      <router-view v-loading="$store.state.scopeloading" />
     </div>
   </div>
 </template>
@@ -114,6 +114,8 @@ export default {
     },
   },
   mounted() {
+    //显示全局loading
+    this.$showfullscreenloading();
     //请求菜单
     this.$get("/menu").then((res) => {
       this.menudata = res.menudata;
@@ -130,6 +132,7 @@ export default {
   .lift {
     height: 100vh;
     width: 200px;
+    min-width: 200px;
     overflow: hidden;
     .logo {
       height: 70px;
@@ -149,6 +152,7 @@ export default {
       height: calc(100vh - 70px);
       overflow-y: scroll;
       width: 220px;
+      min-width: 220px;
       border: none; /* element有这个属性，给他干掉 */
       .icon {
         width: 16px;

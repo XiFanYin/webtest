@@ -39,7 +39,7 @@
 
       <el-table-column label="头像" min-width="2">
         <template slot-scope="scope">
-          <el-image  :src="scope.row.photo" fit="cover"></el-image>
+          <el-image :src="scope.row.photo" fit="cover"></el-image>
         </template>
       </el-table-column>
 
@@ -49,7 +49,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作"  width="180px">
+      <el-table-column label="操作" width="180px">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
             >编辑</el-button
@@ -79,9 +79,46 @@
         class="demo-ruleForm"
       >
         <!-- prop 指向的是校验数据的key -->
-        <el-form-item label="角色名称" prop="rolename">
+        <el-form-item label="头像" prop="rolename">
           <!-- 绑定数据对象 -->
           <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="帐号" prop="loginId">
+          <!-- 绑定数据对象 -->
+          <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="密码" prop="loginPwd">
+          <!-- 绑定数据对象 -->
+          <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="确认密码" prop="loginPwd2">
+          <!-- 绑定数据对象 -->
+          <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="姓名" prop="name">
+          <!-- 绑定数据对象 -->
+          <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="电话" prop="phone">
+          <!-- 绑定数据对象 -->
+          <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="角色" prop="roleId">
+          <!-- 绑定数据对象 -->
+          <el-select v-model="value" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
 
         <el-form-item class="btnfather" label-width="100px">
@@ -114,6 +151,8 @@ export default {
       drawer: false,
       direction: "rtl",
       tableData: [],
+      //获取角色列表
+      roledata:[],
       //添加角色数据
       roledata: {
         rolename: "",
@@ -129,11 +168,12 @@ export default {
   methods: {
     //获取table数据
     gettabledata() {
+      //显示局部loading
+      this.$showscopescreenloading();
       this.$get("/getaccountdata").then((res) => {
         this.tableData = res.data;
       });
     },
-
     handleEdit(index, row) {
       this.isadd = false;
       this.drawer = true;
@@ -210,7 +250,12 @@ export default {
   height: 60px;
 }
 
-::v-deep .el-image__inner{
+.el-select{
+  width: 100%;
+  margin-right: 20px;
+}
+
+::v-deep .el-image__inner {
   border-radius: 10%;
 }
 </style>

@@ -70,6 +70,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          //显示全局loading
+          this.$showfullscreenloading()
           //发起网络请求
           this.$get("/login").then(res => {
                //保存token
