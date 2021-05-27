@@ -65,77 +65,18 @@ Mock.mock('http://test.demo.com/menu', {
 Mock.mock('http://test.demo.com/gettabledata', {
   'data': [{
       roalId: "0",
-      roalname: "系统管理员"
+      rolename: "系统管理员"
     },
     {
       roalId: "1",
-      roalname: "运维A"
+      rolename: "运维"
     },
     {
       roalId: "2",
-      roalname: "运维B"
+      rolename: "财务"
     },
     {
       roalId: "3",
-      roalname: "运维C"
-    },
-    {
-      roalId: "4",
-      roalname: "财务R"
-    },{
-      roalId: "0",
-      roalname: "系统管理员"
-    },
-    {
-      roalId: "1",
-      roalname: "运维A"
-    },
-    {
-      roalId: "2",
-      roalname: "运维B"
-    },
-    {
-      roalId: "3",
-      roalname: "运维C"
-    },
-    {
-      roalId: "4",
-      roalname: "财务R"
-    },{
-      roalId: "0",
-      roalname: "系统管理员"
-    },
-    {
-      roalId: "1",
-      roalname: "运维A"
-    },
-    {
-      roalId: "2",
-      roalname: "运维B"
-    },
-    {
-      roalId: "3",
-      roalname: "运维C"
-    },
-    {
-      roalId: "4",
-      roalname: "财务R"
-    }, {
-      roalId: "1",
-      roalname: "运维A"
-    }, {
-      roalId: "1",
-      roalname: "运维A"
-    }, {
-      roalId: "1",
-      roalname: "运维A"
-    }, {
-      roalId: "1",
-      roalname: "运维A"
-    },
-
-
-
-
-  ],
+      rolename: "测试"
+    }],
 });

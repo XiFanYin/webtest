@@ -1,7 +1,7 @@
 <template>
   <div class="role">
     <div class="search">
-      <el-button type="primary" @click="drawer = !drawer">添加角色</el-button>
+      <el-button type="primary" @click="addrole">添加角色</el-button>
     </div>
 
     <el-table
@@ -21,7 +21,7 @@
 
       <el-table-column label="角色名称" min-width="5">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.roalname }}</span>
+          <span style="margin-left: 10px">{{ scope.row.rolename }}</span>
         </template>
       </el-table-column>
 
@@ -41,7 +41,7 @@
     </el-table>
 
     <el-drawer
-      title="添加角色"
+      :title="isadd ? '添加角色' : '修改角色'"
       :visible.sync="drawer"
       :direction="direction"
       :before-close="drawerClose"
@@ -94,6 +94,7 @@ export default {
       roledata: {
         rolename: "",
       },
+      isadd: true,
       //表单验证数据
       rolerules: {
         //验证用户名，key必须和表单数据key一致，失去焦点时机去验证
@@ -110,20 +111,39 @@ export default {
     },
 
     handleEdit(index, row) {
-      console.log(index, row);
+      this.isadd = false;
+      this.drawer = true;
+      //数据回显
+      this.roledata = row;
     },
     handleDelete(index, row) {
       console.log(index, row);
+      this.$con_f(`确定删除  ${row.rolename}  角色吗？`, () => {
+        this.gettabledata();
+      });
+      //获取角色id
+      //请求删除，删除当前角色，请求列表数据
     },
     drawerClose(done) {
+      this.roledata.rolename = "";
       done();
     },
-
-
-      submitForm(formName) {
-       this.$refs[formName].validate((valid) => {
+    addrole() {
+      this.isadd = true;
+      this.drawer = true;
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-         
+          if (this.isadd) {
+            //这里请求添加接口
+          } else {
+            //这里请求修改接口
+          }
+          // 关闭弹窗
+          this.drawer = false;
+          //再次请求用户数据
+          this.gettabledata();
         } else {
           return false;
         }
@@ -144,15 +164,20 @@ export default {
   margin: 10px 10px;
   overflow: hidden;
 }
-.el-form{
+.el-form {
   margin-right: 20px;
 }
-  .btnfather{
-     text-align: center;
-     margin-top: 100px;
-     .btn{
-        width: 440px;
-     }
-  
+.btnfather {
+  text-align: center;
+  margin-top: 100px;
+  .btn {
+    width: 440px;
   }
+}
+
+.el-drawer__wrapper {
+    position: fixed;
+    top: 70PX;
+  
+}
 </style>
