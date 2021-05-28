@@ -68,7 +68,7 @@
       :title="isadd ? '添加帐号' : '修改帐号'"
       :visible.sync="drawer"
       :direction="direction"
-      :before-close="drawerClose"
+      @close="drawerClose"
     >
       <!-- 需要配置module数据和校验数据对象，并设置ref，为下边获取dom做准备-->
       <el-form
@@ -226,7 +226,7 @@ export default {
     handleEdit(index, row) {
       this.isadd = false;
       this.drawer = true;
-      //数据回显,这里不能赋值对象，要
+      //数据回显,这里不能赋值对象，要深拷贝
        Object.keys(row).forEach(key=>{this.userdata[key]=row[key]})
     },
     //处理删除用户
@@ -238,10 +238,12 @@ export default {
       //请求删除，删除当前角色，请求列表数据
     },
     //关闭抽屉
-    drawerClose(done) {
+    drawerClose() {
       //清空表单
       this.$refs.formelement.resetFields();
-      done();
+      //恢复初始值,饿了吗框架问题，清空表单，数据不会清空
+      this.userdata = this.$options.data().userdata
+    
     },
     //点击添加帐号
     addrole() {
