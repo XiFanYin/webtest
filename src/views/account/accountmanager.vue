@@ -76,10 +76,9 @@
         :rules="rolerules"
         ref="formelement"
         label-width="100px"
-        class="demo-ruleForm"
-      >
+        class="demo-ruleForm">
         <!-- prop 指向的是校验数据的key -->
-        <el-form-item label="头像">
+        <el-form-item label="头像" prop="photo">
           <el-upload
             class="avatar-uploader"
             action="http://192.168.1.136/system/upload"
@@ -241,7 +240,6 @@ export default {
     //关闭抽屉
     drawerClose(done) {
       //清空表单
-      this.userdata.photo = ""
       this.$refs.formelement.resetFields();
       done();
     },
@@ -274,7 +272,8 @@ export default {
     
     //上传之前调用
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
+      let  img_type= ["image/jpeg","image/png","image/gif"]
+      const isJPG = img_type.includes(file.type);
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
