@@ -79,13 +79,6 @@ export default {
     this.gettabledata();
   },
   data() {
-    var validaterolename = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入角色名称"));
-      } else {
-        callback();
-      }
-    };
     return {
       drawer: false,
       direction: "rtl",
@@ -98,7 +91,7 @@ export default {
       //表单验证数据
       rolerules: {
         //验证用户名，key必须和表单数据key一致，失去焦点时机去验证
-        rolename: [{ validator: validaterolename, trigger: "blur" }],
+        rolename: [{ required: true, message: '请输入活动名称', trigger: "blur" }],
       },
     };
   },

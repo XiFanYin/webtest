@@ -78,8 +78,6 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-
-     
         <!-- prop 指向的是校验数据的key -->
         <el-form-item label="头像" prop="photo">
           <!-- 绑定数据对象 -->
@@ -93,12 +91,12 @@
 
         <el-form-item label="密码" prop="loginPwd">
           <!-- 绑定数据对象 -->
-          <el-input v-model="userdata.loginPwd" autocomplete="off"></el-input>
+          <el-input show-password v-model="userdata.loginPwd"></el-input>
         </el-form-item>
 
         <el-form-item label="确认密码" prop="loginPwd2">
           <!-- 绑定数据对象 -->
-          <el-input v-model="userdata.loginPwd2" autocomplete="off"></el-input>
+          <el-input show-password v-model="userdata.loginPwd2"></el-input>
         </el-form-item>
 
         <el-form-item label="姓名" prop="name">
@@ -113,12 +111,13 @@
 
         <el-form-item label="角色" prop="role">
           <!-- 绑定数据对象 -->
-          <el-select v-model="userdata.role" placeholder="请选择" >
+          <el-select v-model="userdata.role" clearable placeholder="请选择角色">
             <el-option
               v-for="item in roledata"
               :key="item.roalId"
               :label="item.rolename"
-              :value="item.roalId">
+              :value="item.roalId"
+            >
             </el-option>
           </el-select>
         </el-form-item>
@@ -146,9 +145,22 @@ export default {
   },
   data() {
     //验证数据数据不能为空
-    var validaterolename = (rule, value, callback) => {
+    var validaterolepwd = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("当前输入框不能为空"));
+        callback(new Error("请输入密码"));
+      } else {
+        if (this.userdata.loginPwd2 !== "") {
+          //手动验证某个属性
+          this.$refs.formelement.validateField("loginPwd2");
+        }
+        callback();
+      }
+    };
+    var validatepwd2 = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.userdata.loginPwd) {
+        callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
       }
@@ -160,33 +172,39 @@ export default {
       //页面列表数据
       tableData: [],
       //获取角色列表
-      roledata:[],
+      roledata: [],
       //添加角色数据
       userdata: {
-        loginid:"",
-        id:"",
-        photo:"",
-        name:"",
-        phone:"",
-        role:""
+        loginid: "",
+        photo: "",
+        name: "",
+        phone: "",
+        role: "",
+        loginPwd: "",
+        loginPwd2: "",
       },
       isadd: true,
       //表单验证数据
       rolerules: {
         //验证用户名，key必须和表单数据key一致，失去焦点时机去验证
-        loginid: [{ validator: validaterolename, trigger: "blur" }],
-        id: [{ validator: validaterolename, trigger: "blur" }],
-        photo: [{ validator: validaterolename, trigger: "blur" }],
-        name: [{ validator: validaterolename, trigger: "blur" }],
-        phone: [{ validator: validaterolename, trigger: "blur" }],
-        role: [{ validator: validaterolename, trigger: "blur" }],
+        loginid: [{ required: true, message: "请输入帐号", trigger: "blur" }],
+        photo: [{ required: true, message: "请输入手机号", trigger: "blur" }],
+        name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+        phone: [{ required: true, message: "请输入电话", trigger: "blur" }],
+        role: [{ required: true, message: "请选择角色", trigger: "change" }],
+        loginPwd: [
+          { required: true, validator: validaterolepwd, trigger: "blur" },
+        ],
+        loginPwd2: [
+          { required: true, validator: validatepwd2, trigger: "blur" },
+        ],
       },
     };
   },
   methods: {
     //获取角色数据
-    getroledata(){
-       this.$get("/gettabledata").then((res) => {
+    getroledata() {
+      this.$get("/gettabledata").then((res) => {
         this.roledata = res.data;
       });
     },
@@ -277,7 +295,7 @@ export default {
   height: 60px;
 }
 
-.el-select{
+.el-select {
   width: 100%;
   margin-right: 20px;
 }
