@@ -30,12 +30,13 @@ const routes = [
     name: "home",
     path: "/home",
     component: () => import('../views/home/home.vue'),
+    redirect: "/homedefault",
     meta: {
       title: "首页"
     }, //设置当前路由的元数据
     children: [{
         name: "homedefault",
-        path: "/",
+        path: "/homedefault",
         component: () => import('../views/home/homedefault.vue'),
         meta: {
           title: "首页"

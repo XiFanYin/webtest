@@ -108,8 +108,8 @@ export default {
     },
     //跳转到大屏显示
     goHomedefult() {
-      if (this.$route.path != "/home") {
-        this.$router.replace("/");
+      if (this.$route.path != "/homedefault") {
+        this.$router.replace("/homedefault");
       }
     },
   },

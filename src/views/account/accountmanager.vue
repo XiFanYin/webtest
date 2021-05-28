@@ -79,9 +79,17 @@
         class="demo-ruleForm"
       >
         <!-- prop 指向的是校验数据的key -->
-        <el-form-item label="头像" prop="photo">
-          <!-- 绑定数据对象 -->
-          <el-input v-model="userdata.photo" autocomplete="off"></el-input>
+        <el-form-item label="头像">
+          <el-upload
+            class="avatar-uploader"
+            :action="'/api'+'/system/upload'"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+
+            <img v-if="userdata.photo" :src="userdata.photo" class="avatar" />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
         </el-form-item>
 
         <el-form-item label="帐号" prop="loginid">
@@ -188,7 +196,6 @@ export default {
       rolerules: {
         //验证用户名，key必须和表单数据key一致，失去焦点时机去验证
         loginid: [{ required: true, message: "请输入帐号", trigger: "blur" }],
-        photo: [{ required: true, message: "请输入手机号", trigger: "blur" }],
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
         phone: [{ required: true, message: "请输入电话", trigger: "blur" }],
         role: [{ required: true, message: "请选择角色", trigger: "change" }],
@@ -222,6 +229,8 @@ export default {
       this.drawer = true;
       //数据回显
       this.userdata = row;
+      this.userdata.loginPwd = "";
+      this.userdata.loginPwd2 = "";
     },
     //处理删除用户
     handleDelete(index, row) {
@@ -258,6 +267,24 @@ export default {
           return false;
         }
       });
+    },
+    //上传成功返回上传地址
+    handleAvatarSuccess(res, file) {
+      this.userdata.photo = URL.createObjectURL(file.raw);
+    },
+    
+    //上传之前调用
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
     },
   },
 };
@@ -302,5 +329,31 @@ export default {
 
 ::v-deep .el-image__inner {
   border-radius: 10%;
+}
+
+.avatar-uploader {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+}
+.avatar-uploader:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+}
+.avatar {
+  width: 100px;
+  height: 100px;
+  display: block;
 }
 </style>
