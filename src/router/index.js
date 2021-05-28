@@ -50,8 +50,8 @@ const routes = [
         }
       },
       {
-        name: "menberhealth",
-        path: "/menberhealth",
+        name: "accountmanager",
+        path: "/accountmanager",
         component: () => import('../views/account/accountmanager.vue'),
         meta: {
           title: "账号管理"

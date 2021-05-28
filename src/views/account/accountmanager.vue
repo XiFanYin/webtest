@@ -72,51 +72,53 @@
     >
       <!-- 需要配置module数据和校验数据对象，并设置ref，为下边获取dom做准备-->
       <el-form
-        :model="roledata"
+        :model="userdata"
         :rules="rolerules"
         ref="formelement"
         label-width="100px"
         class="demo-ruleForm"
       >
+
+     
         <!-- prop 指向的是校验数据的key -->
-        <el-form-item label="头像" prop="rolename">
+        <el-form-item label="头像" prop="photo">
           <!-- 绑定数据对象 -->
-          <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+          <el-input v-model="userdata.photo" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="帐号" prop="loginId">
+        <el-form-item label="帐号" prop="loginid">
           <!-- 绑定数据对象 -->
-          <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+          <el-input v-model="userdata.loginid" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item label="密码" prop="loginPwd">
           <!-- 绑定数据对象 -->
-          <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+          <el-input v-model="userdata.loginPwd" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item label="确认密码" prop="loginPwd2">
           <!-- 绑定数据对象 -->
-          <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+          <el-input v-model="userdata.loginPwd2" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item label="姓名" prop="name">
           <!-- 绑定数据对象 -->
-          <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+          <el-input v-model="userdata.name" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item label="电话" prop="phone">
           <!-- 绑定数据对象 -->
-          <el-input v-model="roledata.rolename" autocomplete="off"></el-input>
+          <el-input v-model="userdata.phone" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="角色" prop="roleId">
+        <el-form-item label="角色" prop="role">
           <!-- 绑定数据对象 -->
-          <el-select v-model="value" placeholder="请选择">
+          <el-select v-model="userdata.role" placeholder="请选择" >
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in roledata"
+              :key="item.roalId"
+              :label="item.rolename"
+              :value="item.roalId">
             </el-option>
           </el-select>
         </el-form-item>
@@ -137,35 +139,57 @@
 <script>
 export default {
   mounted() {
+    //获取表格数据
     this.gettabledata();
+    //获取角色数据
+    this.getroledata();
   },
   data() {
+    //验证数据数据不能为空
     var validaterolename = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入角色名称"));
+        callback(new Error("当前输入框不能为空"));
       } else {
         callback();
       }
     };
     return {
+      //抽屉开关
       drawer: false,
       direction: "rtl",
+      //页面列表数据
       tableData: [],
       //获取角色列表
       roledata:[],
       //添加角色数据
-      roledata: {
-        rolename: "",
+      userdata: {
+        loginid:"",
+        id:"",
+        photo:"",
+        name:"",
+        phone:"",
+        role:""
       },
       isadd: true,
       //表单验证数据
       rolerules: {
         //验证用户名，key必须和表单数据key一致，失去焦点时机去验证
-        rolename: [{ validator: validaterolename, trigger: "blur" }],
+        loginid: [{ validator: validaterolename, trigger: "blur" }],
+        id: [{ validator: validaterolename, trigger: "blur" }],
+        photo: [{ validator: validaterolename, trigger: "blur" }],
+        name: [{ validator: validaterolename, trigger: "blur" }],
+        phone: [{ validator: validaterolename, trigger: "blur" }],
+        role: [{ validator: validaterolename, trigger: "blur" }],
       },
     };
   },
   methods: {
+    //获取角色数据
+    getroledata(){
+       this.$get("/gettabledata").then((res) => {
+        this.roledata = res.data;
+      });
+    },
     //获取table数据
     gettabledata() {
       //显示局部loading
@@ -174,25 +198,28 @@ export default {
         this.tableData = res.data;
       });
     },
+    //处理编辑
     handleEdit(index, row) {
       this.isadd = false;
       this.drawer = true;
       //数据回显
-      this.roledata = row;
+      this.userdata = row;
     },
+    //处理删除用户
     handleDelete(index, row) {
-      console.log(index, row);
-      this.$con_f(`确定删除  ${row.rolename}  角色吗？`, () => {
+      this.$con_f(`确定删除  ${row.name}  用户吗？`, () => {
         this.gettabledata();
       });
       //获取角色id
       //请求删除，删除当前角色，请求列表数据
     },
+    //关闭抽屉
     drawerClose(done) {
       //清空表单
       this.$refs.formelement.resetFields();
       done();
     },
+    //点击添加帐号
     addrole() {
       this.isadd = true;
       this.drawer = true;

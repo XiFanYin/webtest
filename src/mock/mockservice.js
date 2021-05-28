@@ -22,7 +22,7 @@ Mock.mock('http://test.demo.com/menu', {
         },
         {
           name: "账号管理",
-          path: "/menberhealth"
+          path: "/accountmanager"
         }
       ]
     },
