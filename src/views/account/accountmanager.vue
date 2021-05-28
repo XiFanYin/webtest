@@ -82,7 +82,7 @@
         <el-form-item label="头像">
           <el-upload
             class="avatar-uploader"
-            :action="'/api'+'/system/upload'"
+            action="http://192.168.1.136/system/upload"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
@@ -227,10 +227,8 @@ export default {
     handleEdit(index, row) {
       this.isadd = false;
       this.drawer = true;
-      //数据回显
-      this.userdata = row;
-      this.userdata.loginPwd = "";
-      this.userdata.loginPwd2 = "";
+      //数据回显,这里不能赋值对象，要
+       Object.keys(row).forEach(key=>{this.userdata[key]=row[key]})
     },
     //处理删除用户
     handleDelete(index, row) {
@@ -243,6 +241,7 @@ export default {
     //关闭抽屉
     drawerClose(done) {
       //清空表单
+      this.userdata.photo = ""
       this.$refs.formelement.resetFields();
       done();
     },

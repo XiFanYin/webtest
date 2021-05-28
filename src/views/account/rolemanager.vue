@@ -108,8 +108,8 @@ export default {
     handleEdit(index, row) {
       this.isadd = false;
       this.drawer = true;
-      //数据回显
-      this.roledata = row;
+      //数据回显，这里不能这样回显，浅拷贝有问题
+      this.roledata.rolename = row.rolename;
     },
     handleDelete(index, row) {
       console.log(index, row);
