@@ -2,10 +2,9 @@
 import axios from 'axios'
 /* 单独引入错误提示 */
 import {
-    Message
+    Message,
+    Loading
 } from 'element-ui';
-/* 导入全局vuex，因为是单例模式，所以可以导入*/
-import store from '../store'
 //导入全局配置
 import {
     baseURL
@@ -34,12 +33,12 @@ instance.interceptors.request.use(function (config) {
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
     //所有loading全部消失
-    dismassAllloading()
+    closeLoading()
     // 对响应数据做点什么
     return response;
 }, function (error) {
     //所有loading全部消失
-    dismassAllloading()
+    closeLoading()
     // 对响应错误做点什么
     let isHandlerError = true;
     const hideNormalError = () => isHandlerError = false
@@ -61,12 +60,6 @@ instance.interceptors.response.use(function (response) {
 
 
 
-function dismassAllloading() {
-    //所有loading全部消失
-    store.commit('setfullscreenloading', false)
-    store.commit('setscopescreenloading', false)
-
-}
 
 /* 定义get请求 */
 let get = async function (url, params) {
@@ -87,12 +80,26 @@ let post = async function (url, params) {
     return data
 }
 
+let loadingInstance = null
 
+let showLoading = function (target = document.body, background = "rgba(255, 255, 255, 255)") {
+    loadingInstance = Loading.service({
+        target :target,
+        'background': background,
+        spinner:'el-icon-loading'
+    })
+}
 
+let closeLoading = function () {
+    if (loadingInstance) {
+        loadingInstance.close()
+    }
+}
 
 //导出
 export {
     get,
     post,
-    setToken
+    setToken,
+    showLoading
 }

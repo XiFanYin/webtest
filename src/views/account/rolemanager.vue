@@ -1,5 +1,5 @@
 <template>
-  <div class="role">
+  <div class="role" ref="role">
     <div class="search">
       <el-button type="primary" @click="addrole">添加角色</el-button>
     </div>
@@ -98,8 +98,7 @@ export default {
   methods: {
     //获取table数据
     gettabledata() {
-      //显示局部loading
-      this.$showscopescreenloading();
+      this.$showload(this.$refs.role)
       this.$get("/gettabledata").then((res) => {
         this.tableData = res.data;
       });

@@ -72,6 +72,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //发起网络请求
+          this.$showload(null,"rgba(0, 0, 0, 0)")
           this.$get("/login").then(res => {
                //保存token
               localStorage.setItem("token",res.token)

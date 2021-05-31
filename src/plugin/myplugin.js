@@ -1,10 +1,11 @@
 import {
    get,
    post,
-   setToken
+   setToken,
+   showLoading
 } from '../utils/request'
-/* 导入全局vuex，因为是单例模式，所以可以导入*/
-import store from '../store'
+
+
 //自定义插件
 export default {
    install: function (Vue) {
@@ -14,7 +15,7 @@ export default {
             $get(url, params) {
                return get(url, params)
             },
-            $post(url, params,loading) {
+            $post(url, params, loading) {
                return post(url, params)
             },
             $setToken() {
@@ -27,11 +28,8 @@ export default {
                   })
                   .catch(_ => {});
             },
-            $showfullscreenloading(){
-               store.commit('setfullscreenloading', true)
-            },
-            $showscopescreenloading(){
-               store.commit('setscopescreenloading', true)
+            $showload(target,background) {
+               showLoading(target,background)
             }
 
          },

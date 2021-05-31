@@ -23,3 +23,9 @@
   .a-c{
      align-items: center;
   }
+
+
+   .el-loading-spinner i {
+    color: #000000 !important;
+    font-size: 46px;
+  }

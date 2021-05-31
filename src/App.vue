@@ -1,6 +1,6 @@
 <template>
   <div class="body">
-    <router-view  v-loading="$store.state.fullloading" />
+    <router-view />
   </div>
 </template>
 

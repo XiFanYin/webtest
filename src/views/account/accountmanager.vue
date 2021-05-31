@@ -1,5 +1,5 @@
 <template>
-  <div class="role">
+  <div class="role" ref="account">
     <div class="search">
       <el-button type="primary" @click="addrole">添加帐号</el-button>
     </div>
@@ -216,8 +216,7 @@ export default {
     },
     //获取table数据
     gettabledata() {
-      //显示局部loading
-      this.$showscopescreenloading();
+      this.$showload(this.$refs.account)
       this.$get("/getaccountdata").then((res) => {
         this.tableData = res.data;
       });

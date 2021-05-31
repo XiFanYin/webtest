@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <router-view v-loading="$store.state.scopeloading" />
+      <router-view/>
     </div>
   </div>
 </template>
@@ -114,9 +114,8 @@ export default {
     },
   },
   mounted() {
-    //显示全局loading
-    this.$showfullscreenloading();
     //请求菜单
+    this.$showload()
     this.$get("/menu").then((res) => {
       this.menudata = res.menudata;
     });
