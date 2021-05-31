@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
@@ -115,10 +115,17 @@ export default {
   },
   mounted() {
     //请求菜单
-    this.$showload()
-    this.$get("/menu").then((res) => {
-      this.menudata = res.menudata;
-    });
+    var loading = this.$showload();
+    this.$get("/menu")
+      .then((res) => {
+        this.menudata = res.menudata;
+        this.$closeload(loading);
+      })
+      .catch((error) => {
+        //隐藏全局错误处理，当前页面去处理
+        //  error.hideNormalError()
+        this.$closeload(load);
+      });
   },
 };
 </script>

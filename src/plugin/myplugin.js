@@ -28,8 +28,18 @@ export default {
                   })
                   .catch(_ => {});
             },
-            $showload(target,background) {
-               showLoading(target,background)
+            $showload(target = document.body, background = "rgba(255, 255, 255, 255)") {
+               return this.$loading({
+                  target: target,
+                  'background': background,
+                  spinner: 'el-icon-loading'
+               })
+            },
+            $closeload(load) {
+               // 以服务的方式调用的 Loading 需要异步关闭
+               this.$nextTick(() => {
+                  load.close();
+               });
             }
 
          },

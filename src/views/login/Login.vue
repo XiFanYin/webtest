@@ -72,7 +72,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //发起网络请求
-          this.$showload(null,"rgba(0, 0, 0, 0)")
+          var load = this.$showload(null,"rgba(0, 0, 0, 0)")
           this.$get("/login").then(res => {
                //保存token
               localStorage.setItem("token",res.token)
@@ -87,9 +87,11 @@ export default {
              }
              //跳转页面
             this.$router.push({ path: '/home'});
+            this.$closeload(load)
            }).catch(error=>{
              //隐藏全局错误处理，当前页面去处理
             //  error.hideNormalError()
+            this.$closeload(load)
            })
         } else {
           return false;

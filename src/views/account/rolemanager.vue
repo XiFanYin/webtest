@@ -98,9 +98,14 @@ export default {
   methods: {
     //获取table数据
     gettabledata() {
-      this.$showload(this.$refs.role)
+    var  loading =  this.$showload(this.$refs.role)
       this.$get("/gettabledata").then((res) => {
         this.tableData = res.data;
+       this.$closeload(loading)
+      }).catch((error) => {
+        //隐藏全局错误处理，当前页面去处理
+        //  error.hideNormalError()
+        this.$closeload(loading);
       });
     },
 
