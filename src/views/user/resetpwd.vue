@@ -36,6 +36,7 @@
         >
       </el-form-item>
     </el-form>
+    <div class="empty"></div>
   </div>
 </template>
 <script>
@@ -102,7 +103,10 @@ export default {
   height: 100%;
 }
 .el-form {
-  width: 700px;
+  flex: 1;
   margin-top: 40px;
+}
+.empty {
+  flex: 1;
 }
 </style>
