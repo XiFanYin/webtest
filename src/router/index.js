@@ -41,6 +41,20 @@ const routes = [
         meta: {
           title: "首页"
         }
+      }, {
+        name: "mine",
+        path: "/mine",
+        component: () => import('../views/user/mine.vue'),
+        meta: {
+          title: "个人中心"
+        }
+      }, {
+        name: "resetpwd",
+        path: "/resetpwd",
+        component: () => import('../views/user/resetpwd.vue'),
+        meta: {
+          title: "修改密码"
+        }
       },
       {
         name: "rolemanager",

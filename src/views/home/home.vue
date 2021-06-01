@@ -63,8 +63,8 @@
               <img src="@/assets/userpic.jpg" class="picture" />
             </div>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>个人中心</el-dropdown-item>
-              <el-dropdown-item>修改密码</el-dropdown-item>
+              <el-dropdown-item @click.native="tomine">个人中心</el-dropdown-item>
+              <el-dropdown-item @click.native="toresetpwd">修改密码</el-dropdown-item>
               <el-dropdown-item @click.native="loginOut()"
                 >退出登录</el-dropdown-item
               >
@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <router-view />
+      <router-view class="right_view" />
     </div>
   </div>
 </template>
@@ -112,6 +112,15 @@ export default {
         this.$router.replace("/homedefault");
       }
     },
+    //跳转到个人中心
+    tomine(){
+        this.$router.push("/mine");
+    },
+    //跳转到修改密码
+    toresetpwd(){
+       this.$router.push("/resetpwd");
+    }
+
   },
   mounted() {
     //请求菜单
@@ -222,5 +231,11 @@ export default {
 
 .el-dropdown-menu {
   top: 42px !important;
+}
+
+.right_view{
+  margin: 10px ;
+  height: calc(100vh - 90px);
+  background: #ffffff;
 }
 </style>

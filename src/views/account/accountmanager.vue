@@ -1,5 +1,5 @@
 <template>
-  <div class="role" ref="account">
+  <div ref="account">
     <div class="search">
       <el-button type="primary" @click="addrole">添加帐号</el-button>
     </div>
@@ -301,14 +301,6 @@ export default {
   height: 40px;
 }
 
-.role {
-  background: #ffffff;
-  margin: 10px 10px;
-  overflow: hidden;
-}
-.el-form {
-  margin-right: 20px;
-}
 .btnfather {
   text-align: center;
   margin-top: 100px;
