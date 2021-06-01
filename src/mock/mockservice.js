@@ -28,10 +28,10 @@ Mock.mock('http://test.demo.com/menu', {
     },
     {
       menu: "客房管理",
-      index: "money",
+      index: "room",
       submenu: [{
           name: "类型管理",
-          path: "/addmoney"
+          path: "/roomtype"
         },
         {
           name: "客房管理",

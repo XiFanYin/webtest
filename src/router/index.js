@@ -57,6 +57,14 @@ const routes = [
         meta: {
           title: "账号管理"
         }
+      },
+      {
+        name: "roomtype",
+        path: "/roomtype",
+        component: () => import('../views/room/roomtype.vue'),
+        meta: {
+          title: "房间管理"
+        }
       }
     ]
   },
