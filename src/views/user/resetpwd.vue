@@ -6,27 +6,28 @@
       :rules="rules"
       ref="ruleForm"
       label-width="100px"
-      class="demo-ruleForm">
+      class="demo-ruleForm"
+    >
       <el-form-item label="原密码" prop="oldpass">
         <el-input
+          show-password
           type="password"
           v-model="pass.oldpass"
-          autocomplete="off"
         ></el-input>
       </el-form-item>
       <el-form-item label="新密码" prop="newonepass">
         <el-input
           type="password"
+          show-password
           v-model="pass.newonepass"
-          autocomplete="off"
         ></el-input>
       </el-form-item>
 
       <el-form-item label="确认密码" prop="newtwopass">
         <el-input
           type="password"
+          show-password
           v-model="pass.newtwopass"
-          autocomplete="off"
         ></el-input>
       </el-form-item>
       <el-form-item>
@@ -44,7 +45,7 @@ export default {
       if (value === "") {
         callback(new Error("请输入新密码"));
       } else {
-        if (this.pass.newonepass !== "") {
+        if (this.pass.newtwopass !== "") {
           //手动验证某个属性
           this.$refs.ruleForm.validateField("newtwopass");
         }
@@ -81,30 +82,27 @@ export default {
     };
   },
   methods: {
-    submitForm(formName){
+    submitForm(formName) {
       this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-    }
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
-  .pass{
-    display: flex;
-    height: 100%;
-  }
-  .el-form{
-    width: 700px;
-    margin-top: 40px;
-    
-  }
-
+.pass {
+  display: flex;
+  height: 100%;
+}
+.el-form {
+  width: 700px;
+  margin-top: 40px;
+}
 </style>
