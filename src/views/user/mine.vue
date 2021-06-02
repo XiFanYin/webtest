@@ -1,16 +1,19 @@
 <template>
-  <div class="mine">
-    <div>
-      <el-image
-        style="width: 100px; height: 100px"
-        :src="require('../../assets/userpic.jpg')"
-        fit="fit"/>
-    </div>
-    <div class="info">
-      <p>姓名：张三</p>
-      <p>性别：男</p>
-      <p>电话：155****1578</p>
-      <p>角色：管理员</p>
+  <div>
+    <div class="mine">
+      <div>
+        <el-image
+          style="width: 100px; height: 100px"
+          :src="require('@/assets/userpic.jpg')"
+          fit="fit"
+        />
+      </div>
+      <div class="info">
+        <p>姓名：张三</p>
+        <p>性别：男</p>
+        <p>电话：155****1578</p>
+        <p>角色：管理员</p>
+      </div>
     </div>
   </div>
 </template>

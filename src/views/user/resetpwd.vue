@@ -100,7 +100,6 @@ export default {
 <style lang="scss" scoped>
 .pass {
   display: flex;
-  height: 100%;
 }
 .el-form {
   flex: 1;

@@ -1,6 +1,20 @@
 <template>
   <div ref="account">
     <div class="search">
+      <el-select  v-model="value" placeholder="请选择">
+        <el-option
+          v-for="item in cities"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+          <span style="float: left">{{ item.label }}</span>
+          <span style="float: right; color: #8492a6; font-size: 13px">{{
+            item.value
+          }}</span>
+        </el-option>
+      </el-select>
+
       <el-button type="primary" @click="addrole">添加帐号</el-button>
     </div>
 
@@ -76,7 +90,8 @@
         :rules="rolerules"
         ref="formelement"
         label-width="100px"
-        class="demo-ruleForm">
+        class="demo-ruleForm"
+      >
         <!-- prop 指向的是校验数据的key -->
         <el-form-item label="头像" prop="photo">
           <el-upload
@@ -84,8 +99,8 @@
             action="http://192.168.1.136/system/upload"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
-
+            :before-upload="beforeAvatarUpload"
+          >
             <img v-if="userdata.photo" :src="userdata.photo" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
@@ -173,6 +188,26 @@ export default {
       }
     };
     return {
+       cities: [{
+          value: 'Beijing',
+          label: '北京'
+        }, {
+          value: 'Shanghai',
+          label: '上海'
+        }, {
+          value: 'Nanjing',
+          label: '南京'
+        }, {
+          value: 'Chengdu',
+          label: '成都'
+        }, {
+          value: 'Shenzhen',
+          label: '深圳'
+        }, {
+          value: 'Guangzhou',
+          label: '广州'
+        }],
+        value: '',
       //抽屉开关
       drawer: false,
       direction: "rtl",
@@ -216,23 +251,26 @@ export default {
     },
     //获取table数据
     gettabledata() {
-     var load = this.$showload(this.$refs.account)
-      this.$get("/getaccountdata").then((res) => {
-        this.tableData = res.data;
-       this.$closeload(loading);
-      })
-      .catch((error) => {
-        //隐藏全局错误处理，当前页面去处理
-        //  error.hideNormalError()
-        this.$closeload(load);
-      });
+      var load = this.$showload(this.$refs.account);
+      this.$get("/getaccountdata")
+        .then((res) => {
+          this.tableData = res.data;
+          this.$closeload(loading);
+        })
+        .catch((error) => {
+          //隐藏全局错误处理，当前页面去处理
+          //  error.hideNormalError()
+          this.$closeload(load);
+        });
     },
     //处理编辑
     handleEdit(index, row) {
       this.isadd = false;
       this.drawer = true;
       //数据回显,这里不能赋值对象，要深拷贝
-       Object.keys(row).forEach(key=>{this.userdata[key]=row[key]})
+      Object.keys(row).forEach((key) => {
+        this.userdata[key] = row[key];
+      });
     },
     //处理删除用户
     handleDelete(index, row) {
@@ -247,8 +285,7 @@ export default {
       //清空表单
       this.$refs.formelement.resetFields();
       //恢复初始值,饿了吗框架问题，清空表单，数据不会清空
-      this.userdata = this.$options.data().userdata
-    
+      this.userdata = this.$options.data().userdata;
     },
     //点击添加帐号
     addrole() {
@@ -276,10 +313,10 @@ export default {
     handleAvatarSuccess(res, file) {
       this.userdata.photo = URL.createObjectURL(file.raw);
     },
-    
+
     //上传之前调用
     beforeAvatarUpload(file) {
-      let  img_type= ["image/jpeg","image/png","image/gif"]
+      let img_type = ["image/jpeg", "image/png", "image/gif"];
       const isJPG = img_type.includes(file.type);
       const isLt2M = file.size / 1024 / 1024 < 2;
 
@@ -297,8 +334,9 @@ export default {
 
 <style lang="scss" scoped>
 .search {
-  padding: 8px;
   height: 40px;
+  display: flex;
+  padding: 8px;
 }
 
 .btnfather {
@@ -352,5 +390,9 @@ export default {
   width: 100px;
   height: 100px;
   display: block;
+  align-items: center;
+}
+.el-select{
+  width: 200px;
 }
 </style>
