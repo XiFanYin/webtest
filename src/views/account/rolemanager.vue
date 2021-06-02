@@ -5,7 +5,7 @@
     </div>
 
     <el-table
-      height="85vh"
+      height="calc(100vh - 146px)"
       :data="tableData"
       style="width: 99.6%"
       stripe

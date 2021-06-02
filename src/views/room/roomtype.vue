@@ -1,9 +1,6 @@
 <template>
   <div>
-    <quill-editor
-      v-model="content"
-      ref="myQuillEditor"
-      class="quilleditor">
+    <quill-editor v-model="content" ref="myQuillEditor" class="quilleditor">
     </quill-editor>
   </div>
 </template>
@@ -18,8 +15,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.quilleditor{
-    height: 500px;
+.quilleditor {
+  height: calc(100vh - 500px);
 }
 </style>

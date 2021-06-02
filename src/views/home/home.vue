@@ -142,10 +142,10 @@ export default {
 <style lang="scss" scoped>
 .home {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   .lift {
-    height: 100vh;
+    height: 100%;
     width: 200px;
     min-width: 200px;
     overflow: hidden;
@@ -155,8 +155,6 @@ export default {
       color: #ffffff;
       line-height: 70px;
       font-size: 22px;
-      border-right: 1px solid #aaaaaa;
-      border-bottom: 1px solid #aaaaaa;
       span {
         border: solid 1px #eeeeee;
         padding: 5px;
