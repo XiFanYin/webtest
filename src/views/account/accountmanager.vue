@@ -1,7 +1,7 @@
 <template>
   <div ref="account">
     <div class="search">
-      <el-select  v-model="value" placeholder="请选择">
+      <el-select  v-model="value" placeholder="请选择" clearable>
         <el-option
           v-for="item in cities"
           :key="item.value"

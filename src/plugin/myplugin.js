@@ -1,8 +1,7 @@
 import {
    get,
    post,
-   setToken,
-   showLoading
+   setToken
 } from '../utils/request'
 
 
