@@ -79,6 +79,14 @@ const routes = [
         meta: {
           title: "房间管理"
         }
+      },
+      {
+        name: "guest",
+        path: "/guest",
+        component: () => import('../views/guest/guest.vue'),
+        meta: {
+          title: "客户管理"
+        }
       }
     ]
   },

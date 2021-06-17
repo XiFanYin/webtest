@@ -44,7 +44,7 @@ Mock.mock('http://test.demo.com/menu', {
       index: "product",
       submenu: [{
         name: "客户管理",
-        path: "/addproduct"
+        path: "/guest"
       }]
     },
     {
