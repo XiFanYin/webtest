@@ -1,7 +1,7 @@
 <template>
   <div ref="account">
     <div class="search">
-      <el-select  v-model="value" placeholder="请选择" clearable>
+      <el-select v-model="value" placeholder="请选择" clearable>
         <el-option
           v-for="item in cities"
           :key="item.value"
@@ -15,11 +15,12 @@
         </el-option>
       </el-select>
 
+      <el-button type="success" @click="excel">导出Excel</el-button>
       <el-button type="primary" @click="addrole">添加帐号</el-button>
     </div>
 
     <el-table
-       height="calc(100vh - 146px)"
+      height="calc(100vh - 146px)"
       :data="tableData"
       style="width: 99.6%"
       stripe
@@ -158,6 +159,7 @@
   </div>
 </template>
 <script>
+import { xlsx } from "../../utils/xlsx";
 export default {
   mounted() {
     //获取表格数据
@@ -188,26 +190,33 @@ export default {
       }
     };
     return {
-       cities: [{
-          value: 'Beijing',
-          label: '北京'
-        }, {
-          value: 'Shanghai',
-          label: '上海'
-        }, {
-          value: 'Nanjing',
-          label: '南京'
-        }, {
-          value: 'Chengdu',
-          label: '成都'
-        }, {
-          value: 'Shenzhen',
-          label: '深圳'
-        }, {
-          value: 'Guangzhou',
-          label: '广州'
-        }],
-        value: '',
+      cities: [
+        {
+          value: "Beijing",
+          label: "北京",
+        },
+        {
+          value: "Shanghai",
+          label: "上海",
+        },
+        {
+          value: "Nanjing",
+          label: "南京",
+        },
+        {
+          value: "Chengdu",
+          label: "成都",
+        },
+        {
+          value: "Shenzhen",
+          label: "深圳",
+        },
+        {
+          value: "Guangzhou",
+          label: "广州",
+        },
+      ],
+      value: "",
       //抽屉开关
       drawer: false,
       direction: "rtl",
@@ -292,6 +301,27 @@ export default {
       this.isadd = true;
       this.drawer = true;
     },
+    //导出Excel
+    excel() {
+      let json = this.tableData.map((r) => {
+        return {
+          account: r.id,
+          loginid: r.loginid,
+          name: r.name,
+          phone: r.phone,
+        };
+      });
+      let fields = {
+        account: "用户编号",
+        loginid: "登录名",
+        name: "姓名",
+        phone: "手机号",
+      };
+
+      let filename = "系统帐号统计表";
+      xlsx(json, fields, filename);
+    },
+
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -392,9 +422,7 @@ export default {
   display: block;
   align-items: center;
 }
-.el-select{
+.el-select {
   width: 200px;
 }
-
-
 </style>
