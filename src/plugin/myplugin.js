@@ -14,7 +14,7 @@ export default {
             $get(url, params) {
                return get(url, params)
             },
-            $post(url, params, loading) {
+            $post(url, params) {
                return post(url, params)
             },
             $setToken() {
