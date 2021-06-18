@@ -1,5 +1,7 @@
 <template>
   <div>
+
+    测试keep-alive是否管用
     <el-input v-model="input1" placeholder="请输入内容"></el-input>
   </div>
 </template>
