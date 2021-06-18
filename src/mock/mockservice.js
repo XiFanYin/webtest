@@ -52,7 +52,7 @@ Mock.mock('http://test.demo.com/menu', {
       index: "volunteer",
       submenu: [{
         name: "权限管理",
-        path: "/volunteermessage"
+        path: "/permission"
       }]
     }
 

@@ -87,6 +87,14 @@ const routes = [
         meta: {
           title: "客户管理"
         }
+      },
+      {
+        name: "permission",
+        path: "/permission",
+        component: () => import('../views/permission/permission.vue'),
+        meta: {
+          title: "权限管理"
+        }
       }
     ]
   },
