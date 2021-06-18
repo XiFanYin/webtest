@@ -96,7 +96,8 @@ const routes = [
         path: "/permission",
         component: () => import('../views/permission/permission.vue'),
         meta: {
-          title: "权限管理"
+          title: "权限管理",
+          keepAlive:true
         }
       }
     ]
@@ -144,8 +145,6 @@ router.beforeEach((to, from, next) => {
     next("/login")
   }
   //这里可以做判断当前登录人角色id是否能跳转这个页面，能跳转就跳转，不能跳转就回到首页
-
-
 })
 
 //跳转后
