@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+//因为Vuex是单例模式，可以在任何页面导入并使用
+import store from '../store'
 
 //使用路由插件
 Vue.use(VueRouter)
@@ -46,7 +48,8 @@ const routes = [
         path: "/mine",
         component: () => import('../views/user/mine.vue'),
         meta: {
-          title: "个人中心"
+          title: "个人中心",
+          permission:[1]
         }
       }, {
         name: "resetpwd",
@@ -140,6 +143,9 @@ router.beforeEach((to, from, next) => {
     //否则跳转到登录
     next("/login")
   }
+  //这里可以做判断当前登录人角色id是否能跳转这个页面，能跳转就跳转，不能跳转就回到首页
+
+
 })
 
 //跳转后
