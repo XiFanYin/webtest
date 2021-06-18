@@ -60,7 +60,7 @@
         <div class="user">
           <el-dropdown trigger="click">
             <div class="el-dropdown-link">
-              <img src="@/assets/userpic.jpg" class="picture" />
+              <img src="@/assets/userpic.jpg" class="picture avatar" />
             </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="tomine"
@@ -203,8 +203,8 @@ export default {
           display: flex;
           align-items: center;
           .picture {
-            width: 30px;
-            height: 30px;
+            width: 36px;
+            height: 36px;
             display: inline-block;
             border-radius: 50%;
           }
@@ -241,4 +241,13 @@ export default {
   height: calc(100vh - 90px);
   background: #ffffff;
 }
+.avatar:hover {
+    transform: rotate(666turn);
+    transition-delay: 1s;
+    transition-property: all;
+    transition-duration: 59s;
+    transition-timing-function: cubic-bezier(.34,0,.84,1);
+}
+
+
 </style>
