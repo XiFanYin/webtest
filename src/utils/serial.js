@@ -15,7 +15,7 @@ const STOP = new Uint8Array([
     0xcc, 0x80, 0x03, 0x03, 0x01, 0x03, 0x00, 0x02,
 ]);
 
-const resultData = []
+var resultData = []
 
 const STATE = {
     RESULT: 0,
@@ -80,8 +80,38 @@ async function readListener() {
                 }
                 if (value) {
                     resultData.push(Buffer.from(value).toString('hex'))
-                    if(resultData.length==8){
-                      console.log(resultData)
+                    if (resultData.length >= 5) {
+                        switch (resultData[4]) {
+                            case 0x01: { //连接回执
+                                if (resultData.length == 8) {
+
+                                }
+                            }
+                            case 0x02: { //开始测量回执
+                                if (resultData.length == 8) {
+
+                                }
+                            }
+                            case 0x03: { //停止测量回执
+                                if (resultData.length == 8) {
+
+                                }
+                            }
+                            case 0x06: { //返回压力结果回执
+                                if (resultData.length == 20) {
+                                    parseResultData(resultData.concat())
+                                    //清空数据
+                                    resultData.length = 0
+                                }
+                            }
+                            case 0x07: { //发生错误回执
+                                if (resultData.length == 8) {
+                                    parseErrorData(resultData.concat())
+                                    //清空数据
+                                    resultData.length = 0
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -114,6 +144,20 @@ function stopMeasure() {
     writeCommand(STOP);
 };
 
+/**
+ * 错误解析
+ */
+
+function parseErrorData(data) {
+
+};
+
+/**
+ * 测量结果解析
+ */
+function parseResultData(data) {
+
+};
 
 
 
