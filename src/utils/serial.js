@@ -7,11 +7,11 @@ var reader = null;
 //写流
 var writer = null;
 //连接状态回调
-var mStateListener = null
+var mStateListener = null;
 //发生错误回调
-var mErrorListener = null
+var mErrorListener = null;
 //测量结果回调
-var mResultListener = null
+var mResultListener = null;
 //停止标识
 let keepReading = true;
 
@@ -34,14 +34,14 @@ const STOP = new Uint8Array([
     0xcc, 0x80, 0x03, 0x03, 0x01, 0x03, 0x00, 0x02,
 ]);
 //数据拼接
-var resultData = []
+var resultData = [];
 
 //连接状态定义
 const CONNECTSTATE = {
     UNCONNECT: 0, //未连接
     IDLE: 1, //闲置
     WORK: 2, //工作
-}
+};
 //错误码定义
 const ERRORSTATE = {
     OPENFAIL: {
@@ -96,10 +96,10 @@ const ERRORSTATE = {
         code: 12,
         message: "其他错误"
     }
-}
+};
 
 //当前设备连接状态标记
-var currentState = CONNECTSTATE.UNCONNECT
+var currentState = CONNECTSTATE.UNCONNECT;
 
 
 /**
@@ -116,7 +116,7 @@ function isbrowserSupportSerial() {
  */
 function getDeviceState() {
     return currentState
-}
+};
 
 
 /**
@@ -124,9 +124,9 @@ function getDeviceState() {
  */
 async function connectBloodPress(stateListener, errorListener,resultListener) {
     //设置回调
-    mStateListener = stateListener
-    mErrorListener = errorListener
-    mResultListener = resultListener
+    mStateListener = stateListener;
+    mErrorListener = errorListener;
+    mResultListener = resultListener;
     if (currentState == CONNECTSTATE.UNCONNECT) {
         try {
             //获取串口对象
@@ -155,7 +155,7 @@ async function connectBloodPress(stateListener, errorListener,resultListener) {
             }
         }
     } else {
-        callError(ERRORSTATE.REPEATCONNECT)
+        callError(ERRORSTATE.REPEATCONNECT);
     }
 
 
@@ -179,49 +179,49 @@ async function readListener() {
                     break;
                 }
                 if (value) {
-                    resultData.push(Buffer.from(value).toString('hex'))
+                    resultData.push(Buffer.from(value).toString('hex'));
                     if (resultData.length > 5) {
                         switch (resultData[5]) {
                             case "01": { //连接回执
                                 if (resultData.length == 8) {
                                     //清空数据
-                                    resultData.length = 0
-                                    changeState(CONNECTSTATE.IDLE)
+                                    resultData.length = 0;
+                                    changeState(CONNECTSTATE.IDLE);
                                 }
                                 break
                             }
                             case "02": { //开始测量回执
                                 if (resultData.length == 8) {
                                     //清空数据
-                                    resultData.length = 0
-                                    changeState(CONNECTSTATE.WORK)
+                                    resultData.length = 0;
+                                    changeState(CONNECTSTATE.WORK);
                                 }
                                 break
                             }
                             case "03": { //停止测量回执
                                 if (resultData.length == 8) {
                                     //清空数据
-                                    resultData.length = 0
-                                    changeState(CONNECTSTATE.IDLE)
+                                    resultData.length = 0;
+                                    changeState(CONNECTSTATE.IDLE);
                                 }
                                 break
                             }
                             case "06": { //返回测量结果回执
                                 if (resultData.length == 20) {
                                     //去解析结果
-                                    parseResultData(resultData.concat())
+                                    parseResultData(resultData.concat());
                                     //清空数据
-                                    resultData.length = 0
-                                    changeState(CONNECTSTATE.IDLE)
+                                    resultData.length = 0;
+                                    changeState(CONNECTSTATE.IDLE);
                                 }
                                 break
                             }
                             case "07": { //发生错误回执
                                 if (resultData.length == 8) {
-                                    parseErrorData(resultData.concat())
+                                    parseErrorData(resultData.concat());
                                     //清空数据
-                                    resultData.length = 0
-                                    changeState(CONNECTSTATE.IDLE)
+                                    resultData.length = 0;
+                                    changeState(CONNECTSTATE.IDLE);
                                 }
                                 break
                             }
@@ -236,7 +236,7 @@ async function readListener() {
             reader.releaseLock();
         }
         //关闭串口
-        resetData()
+        resetData();
     }
 };
 
@@ -256,9 +256,9 @@ function startMeasure() {
     if (currentState == CONNECTSTATE.IDLE) {
         writeCommand(START);
     } else if (currentState == CONNECTSTATE.UNCONNECT) {
-        callError(ERRORSTATE.DISCONNECT)
+        callError(ERRORSTATE.DISCONNECT);
     } else if (currentState == CONNECTSTATE.WORK) {
-        callError(ERRORSTATE.REPEATMEASURE)
+        callError(ERRORSTATE.REPEATMEASURE);
     }
 };
 
@@ -267,9 +267,9 @@ function startMeasure() {
  */
 function stopMeasure() {
     if (currentState == CONNECTSTATE.IDLE) {
-        callError(ERRORSTATE.NOWORKING)
+        callError(ERRORSTATE.NOWORKING);
     } else if (currentState == CONNECTSTATE.UNCONNECT) {
-        callError(ERRORSTATE.DISCONNECT)
+        callError(ERRORSTATE.DISCONNECT);
     } else if (currentState == CONNECTSTATE.WORK) {
         writeCommand(STOP);
     }
@@ -283,9 +283,9 @@ function stopMeasure() {
 async function disConnect() {
     if (currentState != CONNECTSTATE.UNCONNECT) {
         if (currentState == CONNECTSTATE.WORK) {
-            stopMeasure()
+            stopMeasure();
         }
-        keepReading = false
+        keepReading = false;
         reader.cancel();
     }
 }
@@ -299,10 +299,10 @@ async function resetData() {
     port = null;
     reader = null;
     writer = null;
-    mStateListener = null
-    mErrorListener = null
+    mStateListener = null;
+    mErrorListener = null;
     keepReading = true;
-    resultData.length = 0
+    resultData.length = 0;
 }
 
 
@@ -313,35 +313,35 @@ async function resetData() {
 function parseErrorData(data) {
     switch (data[6]) {
         case "01": {
-            callError(ERRORSTATE.PRESSUREPROTECT)
+            callError(ERRORSTATE.PRESSUREPROTECT);
             break
         }
         case "02": {
-            callError(ERRORSTATE.AIRLEAKAGE)
+            callError(ERRORSTATE.AIRLEAKAGE);
             break
         }
         case "05": {
-            callError(ERRORSTATE.AIRLEAKAGE)
+            callError(ERRORSTATE.AIRLEAKAGE);
             break
         }
         case "06": {
-            callError(ERRORSTATE.SENSOR)
+            callError(ERRORSTATE.SENSOR);
             break
         }
         case "09": {
-            callError(ERRORSTATE.DEFLATE)
+            callError(ERRORSTATE.DEFLATE);
             break
         }
         case "0f": {
-            callError(ERRORSTATE.AIRLOUT)
+            callError(ERRORSTATE.AIRLOUT);
             break
         }
         case "10": {
-            callError(ERRORSTATE.MOTOR)
+            callError(ERRORSTATE.MOTOR);
             break
         }
         default: {
-            callError(ERRORSTATE.OTHER)
+            callError(ERRORSTATE.OTHER);
         }
     }
 
@@ -351,12 +351,11 @@ function parseErrorData(data) {
  * 测量结果解析
  */
 function parseResultData(data) {
-    console.log("parseResultData" + data)
-    let H = hex2int(data[13]) * 256 + hex2int(data[14])
-    let D = hex2int(data[15]) * 256 + hex2int(data[16])
-    let m = hex2int(data[17]) * 256 + hex2int(data[18])
+    let H = hex2int(data[13]) * 256 + hex2int(data[14]);
+    let D = hex2int(data[15]) * 256 + hex2int(data[16]);
+    let m = hex2int(data[17]) * 256 + hex2int(data[18]);
     if(mResultListener){
-        mResultListener({"H":H,"D":D,"M":m})
+        mResultListener({"H":H,"D":D,"M":m});
     }
 };
 
@@ -365,10 +364,10 @@ function parseResultData(data) {
  * 改变当前连接状态，对外部进行回调
  */
 function changeState(state) {
-    currentState = state
+    currentState = state;
     //向外回调当前状态
     if (mStateListener) {
-        mStateListener(currentState)
+        mStateListener(currentState);
     }
 
 }
@@ -377,7 +376,7 @@ function changeState(state) {
  */
 function callError(errormessage) {
     if (mErrorListener) {
-        mErrorListener(errormessage)
+        mErrorListener(errormessage);
     }
 }
 
