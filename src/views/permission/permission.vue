@@ -22,8 +22,8 @@ export default {
     };
   },
   methods: {
-    statee(){
-      console.log(serial.getDeviceState())
+    statee() {
+      console.log(serial.getDeviceState());
     },
     check() {
       if (serial.isbrowserSupportSerial()) {
@@ -34,7 +34,17 @@ export default {
     },
 
     connect() {
-      serial.connectBloodPress();
+      serial.connectBloodPress(
+        (stare) => {
+          console.log("当前状态:" + stare);
+        },
+        (error) => {
+          console.log(error);
+        },
+        (result) => {
+          console.log(result);
+        }
+      );
     },
     start() {
       serial.startMeasure();
@@ -46,16 +56,7 @@ export default {
       serial.disConnect();
     },
   },
-  mounted() {
-    serial.init(
-      function (stare) {
-        console.log("当前状态:" + stare);
-      },
-      function (error) {
-        console.log(error);
-      }
-    );
-  },
+  mounted() {},
 };
 </script>
 

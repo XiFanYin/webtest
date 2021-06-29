@@ -8,6 +8,8 @@ var writer = null;
 var mStateListener = null
 //发生错误回调
 var mErrorListener = null
+//测量结果回调
+var mResultListener = null
 //停止标识
 let keepReading = true;
 
@@ -105,16 +107,6 @@ function isbrowserSupportSerial() {
     return "serial" in navigator
 };
 
-/**
- * 
- * 初始化设置监听
- */
-function init(stateListener, errorListener) {
-    //设置回调
-    mStateListener = stateListener
-    mErrorListener = errorListener
-}
-
 
 /**
  * 
@@ -128,10 +120,12 @@ function getDeviceState() {
 /**
  * 连接血压计
  */
-async function connectBloodPress() {
-    throwError()
+async function connectBloodPress(stateListener, errorListener,resultListener) {
+    //设置回调
+    mStateListener = stateListener
+    mErrorListener = errorListener
+    mResultListener = resultListener
     if (currentState == STATE.UNCONNECT) {
-
         try {
             //获取串口对象
             port = await navigator.serial.requestPort({
@@ -218,6 +212,7 @@ async function readListener() {
                                     resultData.length = 0
                                     changeState(STATE.IDLE)
                                 }
+                                break
                             }
                             case "07": { //发生错误回执
                                 if (resultData.length == 8) {
@@ -226,6 +221,7 @@ async function readListener() {
                                     resultData.length = 0
                                     changeState(STATE.IDLE)
                                 }
+                                break
                             }
                         }
                     }
@@ -354,6 +350,12 @@ function parseErrorData(data) {
  */
 function parseResultData(data) {
     console.log("parseResultData" + data)
+    let H = hex2int(data[13]) * 256 + hex2int(data[14])
+    let D = hex2int(data[15]) * 256 + hex2int(data[16])
+    let m = hex2int(data[17]) * 256 + hex2int(data[18])
+    if(mResultListener){
+        mResultListener({"H":H,"D":D,"M":m})
+    }
 };
 
 /**
@@ -378,20 +380,30 @@ function callError(errormessage) {
 }
 
 
-/**
- * 校验
- */
-function throwError() {
-    if (!mStateListener && !mErrorListener) {
-        throw "第一步调用init,设置完整的回调函数"
-    }
-}
 
+function hex2int(hex) {
+    var len = hex.length,
+        a = new Array(len),
+        code;
+    for (var i = 0; i < len; i++) {
+        code = hex.charCodeAt(i);
+        if (48 <= code && code < 58) {
+            code -= 48;
+        } else {
+            code = (code & 0xdf) - 65 + 10;
+        }
+        a[i] = code;
+    }
+
+    return a.reduce(function (acc, c) {
+        acc = 16 * acc + c;
+        return acc;
+    }, 0);
+}
 
 
 export default {
     isbrowserSupportSerial,
-    init,
     getDeviceState,
     connectBloodPress,
     startMeasure,
