@@ -1,4 +1,5 @@
 //https://blog.csdn.net/weixin_43155762/article/details/116888996
+//https://blog.csdn.net/weixin_41231535/article/details/115218293
 //端口对象
 var port = null;
 //读流
