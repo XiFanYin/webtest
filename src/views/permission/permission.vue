@@ -56,7 +56,7 @@ export default {
       serial.disConnect();
     },
   },
-  mounted() {},
+ 
 };
 </script>
 

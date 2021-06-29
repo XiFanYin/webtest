@@ -37,7 +37,7 @@ const STOP = new Uint8Array([
 var resultData = []
 
 //连接状态定义
-const STATE = {
+const CONNECTSTATE = {
     UNCONNECT: 0, //未连接
     IDLE: 1, //闲置
     WORK: 2, //工作
@@ -99,7 +99,7 @@ const ERRORSTATE = {
 }
 
 //当前设备连接状态标记
-var currentState = STATE.UNCONNECT
+var currentState = CONNECTSTATE.UNCONNECT
 
 
 /**
@@ -127,7 +127,7 @@ async function connectBloodPress(stateListener, errorListener,resultListener) {
     mStateListener = stateListener
     mErrorListener = errorListener
     mResultListener = resultListener
-    if (currentState == STATE.UNCONNECT) {
+    if (currentState == CONNECTSTATE.UNCONNECT) {
         try {
             //获取串口对象
             port = await navigator.serial.requestPort({
@@ -186,7 +186,7 @@ async function readListener() {
                                 if (resultData.length == 8) {
                                     //清空数据
                                     resultData.length = 0
-                                    changeState(STATE.IDLE)
+                                    changeState(CONNECTSTATE.IDLE)
                                 }
                                 break
                             }
@@ -194,7 +194,7 @@ async function readListener() {
                                 if (resultData.length == 8) {
                                     //清空数据
                                     resultData.length = 0
-                                    changeState(STATE.WORK)
+                                    changeState(CONNECTSTATE.WORK)
                                 }
                                 break
                             }
@@ -202,7 +202,7 @@ async function readListener() {
                                 if (resultData.length == 8) {
                                     //清空数据
                                     resultData.length = 0
-                                    changeState(STATE.IDLE)
+                                    changeState(CONNECTSTATE.IDLE)
                                 }
                                 break
                             }
@@ -212,7 +212,7 @@ async function readListener() {
                                     parseResultData(resultData.concat())
                                     //清空数据
                                     resultData.length = 0
-                                    changeState(STATE.IDLE)
+                                    changeState(CONNECTSTATE.IDLE)
                                 }
                                 break
                             }
@@ -221,7 +221,7 @@ async function readListener() {
                                     parseErrorData(resultData.concat())
                                     //清空数据
                                     resultData.length = 0
-                                    changeState(STATE.IDLE)
+                                    changeState(CONNECTSTATE.IDLE)
                                 }
                                 break
                             }
@@ -253,11 +253,11 @@ async function writeCommand(command) {
  *开始测量
  */
 function startMeasure() {
-    if (currentState == STATE.IDLE) {
+    if (currentState == CONNECTSTATE.IDLE) {
         writeCommand(START);
-    } else if (currentState == STATE.UNCONNECT) {
+    } else if (currentState == CONNECTSTATE.UNCONNECT) {
         callError(ERRORSTATE.DISCONNECT)
-    } else if (currentState == STATE.WORK) {
+    } else if (currentState == CONNECTSTATE.WORK) {
         callError(ERRORSTATE.REPEATMEASURE)
     }
 };
@@ -266,11 +266,11 @@ function startMeasure() {
  * 停止测量
  */
 function stopMeasure() {
-    if (currentState == STATE.IDLE) {
+    if (currentState == CONNECTSTATE.IDLE) {
         callError(ERRORSTATE.NOWORKING)
-    } else if (currentState == STATE.UNCONNECT) {
+    } else if (currentState == CONNECTSTATE.UNCONNECT) {
         callError(ERRORSTATE.DISCONNECT)
-    } else if (currentState == STATE.WORK) {
+    } else if (currentState == CONNECTSTATE.WORK) {
         writeCommand(STOP);
     }
 };
@@ -281,8 +281,8 @@ function stopMeasure() {
  * 
  */
 async function disConnect() {
-    if (currentState != STATE.UNCONNECT) {
-        if (currentState == STATE.WORK) {
+    if (currentState != CONNECTSTATE.UNCONNECT) {
+        if (currentState == CONNECTSTATE.WORK) {
             stopMeasure()
         }
         keepReading = false
@@ -295,7 +295,7 @@ async function disConnect() {
  */
 async function resetData() {
     await port.close();
-    changeState(STATE.UNCONNECT)
+    changeState(CONNECTSTATE.UNCONNECT)
     port = null;
     reader = null;
     writer = null;
@@ -410,5 +410,8 @@ export default {
     connectBloodPress,
     startMeasure,
     stopMeasure,
-    disConnect
+    disConnect,
+    ERRORSTATE,
+    CONNECTSTATE
+
 }
