@@ -63,6 +63,34 @@ const ERRORSTATE = {
     NOWORKING: {
         code: 5,
         message: "设备未工作，无需停止"
+    },
+    PRESSUREPROTECT: {
+        code: 6,
+        message: "压力保护"
+    },
+    AIRLEAKAGE: {
+        code: 7,
+        message: "信号检测错误或上游气囊漏气，请重新测量"
+    },
+    SENSOR: {
+        code: 8,
+        message: "信号检测错误或传感器错误请重新测量"
+    },
+    DEFLATE: {
+        code: 9,
+        message: "放气异常"
+    },
+    AIRLOUT: {
+        code: 10,
+        message: "系统漏气"
+    },
+    MOTOR: {
+        code: 11,
+        message: "电机错误"
+    },
+    OTHER: {
+        code: 12,
+        message: "其他错误"
     }
 }
 
@@ -273,6 +301,8 @@ async function resetData() {
     port = null;
     reader = null;
     writer = null;
+    mStateListener = null
+    mErrorListener = null
     keepReading = true;
     resultData.length = 0
 }
@@ -283,7 +313,40 @@ async function resetData() {
  */
 
 function parseErrorData(data) {
-    console.log("parseErrorData" + data)
+    switch (data[6]) {
+        case "01": {
+            callError(ERRORSTATE.PRESSUREPROTECT)
+            break
+        }
+        case "02": {
+            callError(ERRORSTATE.AIRLEAKAGE)
+            break
+        }
+        case "05": {
+            callError(ERRORSTATE.AIRLEAKAGE)
+            break
+        }
+        case "06": {
+            callError(ERRORSTATE.SENSOR)
+            break
+        }
+        case "09": {
+            callError(ERRORSTATE.DEFLATE)
+            break
+        }
+        case "0f": {
+            callError(ERRORSTATE.AIRLOUT)
+            break
+        }
+        case "10": {
+            callError(ERRORSTATE.MOTOR)
+            break
+        }
+        default: {
+            callError(ERRORSTATE.OTHER)
+        }
+    }
+
 };
 
 /**
