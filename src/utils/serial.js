@@ -301,6 +301,7 @@ async function resetData() {
     writer = null;
     mStateListener = null;
     mErrorListener = null;
+    mResultListener = null;
     keepReading = true;
     resultData.length = 0;
 }
