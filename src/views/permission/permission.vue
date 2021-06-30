@@ -16,9 +16,6 @@ export default {
   data() {
     return {
       input1: "",
-      port: null,
-      reader: null,
-      writer: null,
     };
   },
   methods: {
