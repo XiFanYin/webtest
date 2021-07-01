@@ -145,10 +145,8 @@ async function connectBloodPress(stateListener, errorListener,resultListener) {
             writer = port.writable.getWriter();
             //监听串口回执数据
             readListener();
-            //写入连接指令(这里不写入连接指令也可以，但是文档有，所以写上了)
+            //写入连接指令
             writeCommand(CONNECT);
-            //只要调用了这个方法，就认为连接上了，改变状态为已连接
-            changeState(CONNECTSTATE.IDLE);
         } catch (error) {
             if (error.message == "Failed to open serial port.") {
                 callError(ERRORSTATE.OPENFAIL)
@@ -247,9 +245,7 @@ async function readListener() {
  * 串口写入命令
  */
 async function writeCommand(command) {
-    if(writer){
-        await writer.write(command);
-    }
+    await writer.write(command);
 };
 
 
