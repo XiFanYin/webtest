@@ -97,7 +97,7 @@ const routes = [
         component: () => import('../views/permission/permission.vue'),
         meta: {
           title: "权限管理",
-          keepAlive:true
+          /* keepAlive:true //页面是否销毁*/
         }
       }
     ]

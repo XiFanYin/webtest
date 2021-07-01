@@ -52,13 +52,9 @@ const ERRORSTATE = {
         code: 1,
         message: "未选择串口"
     },
-    REPEATCONNECT: {
+    NOBOOT: {
         code: 2,
-        message: "串口重复连接"
-    },
-    DISCONNECT: {
-        code: 3,
-        message: "测量设备未连接"
+        message: "血压计未开机"
     },
     REPEATMEASURE: {
         code: 4,
@@ -100,8 +96,8 @@ const ERRORSTATE = {
 
 //当前设备连接状态标记
 var currentState = CONNECTSTATE.UNCONNECT;
-
-
+//定时器
+var time = null;
 /**
  * 判断浏览器是否支持串口通讯
  */
@@ -118,15 +114,22 @@ function getDeviceState() {
     return currentState
 };
 
-
 /**
- * 连接血压计
+ * 创建连接对象
  */
-async function connectBloodPress(stateListener, errorListener,resultListener) {
+function create(stateListener, errorListener, resultListener) {
     //设置回调
     mStateListener = stateListener;
     mErrorListener = errorListener;
     mResultListener = resultListener;
+}
+
+
+/**
+ * 打开串口并且测量，如果已经打开串口，就调用测量即可
+ */
+async function startMeasure() {
+    //如果未打开串口就去打开串口
     if (currentState == CONNECTSTATE.UNCONNECT) {
         try {
             //获取串口对象
@@ -145,9 +148,12 @@ async function connectBloodPress(stateListener, errorListener,resultListener) {
             writer = port.writable.getWriter();
             //监听串口回执数据
             readListener();
-            //写入连接指令
-            writeCommand(CONNECT);
+            //改变串口为连接状态
+            changeState(CONNECTSTATE.IDLE);
+            //去调用开始测量
+            start()
         } catch (error) {
+            //发生异常向外告知异常
             if (error.message == "Failed to open serial port.") {
                 callError(ERRORSTATE.OPENFAIL)
             } else if (error.message == "No port selected by the user.") {
@@ -155,7 +161,8 @@ async function connectBloodPress(stateListener, errorListener,resultListener) {
             }
         }
     } else {
-        callError(ERRORSTATE.REPEATCONNECT);
+        //串口已经打开，去调用真正的测量
+        start()
     }
 
 
@@ -182,18 +189,11 @@ async function readListener() {
                     resultData.push(Buffer.from(value).toString('hex'));
                     if (resultData.length > 5) {
                         switch (resultData[5]) {
-                            case "01": { //连接回执
-                                if (resultData.length == 8) {
-                                    //清空数据
-                                    resultData.length = 0;
-                                    changeState(CONNECTSTATE.IDLE);
-                                }
-                                break
-                            }
                             case "02": { //开始测量回执
                                 if (resultData.length == 8) {
                                     //清空数据
                                     resultData.length = 0;
+                                    //改变为测量状态
                                     changeState(CONNECTSTATE.WORK);
                                 }
                                 break
@@ -202,6 +202,7 @@ async function readListener() {
                                 if (resultData.length == 8) {
                                     //清空数据
                                     resultData.length = 0;
+                                    //改变为闲置状态
                                     changeState(CONNECTSTATE.IDLE);
                                 }
                                 break
@@ -212,6 +213,7 @@ async function readListener() {
                                     parseResultData(resultData.concat());
                                     //清空数据
                                     resultData.length = 0;
+                                    //改变为闲置状态
                                     changeState(CONNECTSTATE.IDLE);
                                 }
                                 break
@@ -221,6 +223,7 @@ async function readListener() {
                                     parseErrorData(resultData.concat());
                                     //清空数据
                                     resultData.length = 0;
+                                    //改变为闲置状态
                                     changeState(CONNECTSTATE.IDLE);
                                 }
                                 break
@@ -250,14 +253,21 @@ async function writeCommand(command) {
 
 
 /**
- *开始测量
+ *真正的测量方法
  */
-function startMeasure() {
+function start() {
     if (currentState == CONNECTSTATE.IDLE) {
+        //闲置状态有可能下几位为打开，也有可能已经打开
+        time = setTimeout(() => {
+            //如果一秒后状态还是未工作，判定为下机位为开机
+            if (getDeviceState() == CONNECTSTATE.IDLE) {
+                callError(ERRORSTATE.NOBOOT);
+            }
+        }, 1000)
+        //写入命令
         writeCommand(START);
-    } else if (currentState == CONNECTSTATE.UNCONNECT) {
-        callError(ERRORSTATE.DISCONNECT);
     } else if (currentState == CONNECTSTATE.WORK) {
+        //如果正在测量，再次点击测量
         callError(ERRORSTATE.REPEATMEASURE);
     }
 };
@@ -266,10 +276,9 @@ function startMeasure() {
  * 停止测量
  */
 function stopMeasure() {
-    if (currentState == CONNECTSTATE.IDLE) {
+    //只有正在测量的时候才能停止测量
+    if (currentState == CONNECTSTATE.IDLE || currentState == CONNECTSTATE.UNCONNECT) {
         callError(ERRORSTATE.NOWORKING);
-    } else if (currentState == CONNECTSTATE.UNCONNECT) {
-        callError(ERRORSTATE.DISCONNECT);
     } else if (currentState == CONNECTSTATE.WORK) {
         writeCommand(STOP);
     }
@@ -277,17 +286,21 @@ function stopMeasure() {
 
 
 /**
- * 关闭串口连接
+ * 关闭串口连接，并销毁对象防止内存泄漏
  * 
  */
-async function disConnect() {
+async function destroy() {
+    //只有连接了才能断开连接
     if (currentState != CONNECTSTATE.UNCONNECT) {
+        //关闭串口时候，如果正在测量，就停止测量
         if (currentState == CONNECTSTATE.WORK) {
             stopMeasure();
         }
         keepReading = false;
         reader.cancel();
     }
+
+
 }
 
 /**
@@ -295,7 +308,6 @@ async function disConnect() {
  */
 async function resetData() {
     await port.close();
-    changeState(CONNECTSTATE.UNCONNECT);
     port = null;
     reader = null;
     writer = null;
@@ -304,6 +316,10 @@ async function resetData() {
     mResultListener = null;
     keepReading = true;
     resultData.length = 0;
+    clearTimeout(time);
+    time = null;
+    //改变状态
+    changeState(CONNECTSTATE.UNCONNECT);
 }
 
 
@@ -355,8 +371,12 @@ function parseResultData(data) {
     let H = hex2int(data[13]) * 256 + hex2int(data[14]);
     let D = hex2int(data[15]) * 256 + hex2int(data[16]);
     let m = hex2int(data[17]) * 256 + hex2int(data[18]);
-    if(mResultListener){
-        mResultListener({"H":H,"D":D,"M":m});
+    if (mResultListener) {
+        mResultListener({
+            "H": H,
+            "D": D,
+            "M": m
+        });
     }
 };
 
@@ -407,11 +427,10 @@ function hex2int(hex) {
 export default {
     isbrowserSupportSerial,
     getDeviceState,
-    connectBloodPress,
+    create,
     startMeasure,
     stopMeasure,
-    disConnect,
+    destroy,
     ERRORSTATE,
     CONNECTSTATE
-
 }
