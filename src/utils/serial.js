@@ -54,7 +54,7 @@ const ERRORSTATE = {
     },
     NOBOOT: {
         code: 2,
-        message: "血压计未开机"
+        message: "血压计未开机或正在放气"
     },
     REPEATMEASURE: {
         code: 4,
