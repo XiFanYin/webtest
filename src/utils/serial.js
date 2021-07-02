@@ -276,6 +276,8 @@ function start() {
  * 停止测量
  */
 function stopMeasure() {
+    //清空定时器
+    clearTimeout(time)
     //只有正在测量的时候才能停止测量
     if (currentState == CONNECTSTATE.IDLE || currentState == CONNECTSTATE.UNCONNECT) {
         callError(ERRORSTATE.NOWORKING);
