@@ -302,7 +302,7 @@ class SingletonSerial {
                 if (currentState != CONNECTSTATE.UNCONNECT) {
                     //关闭串口时候，如果正在测量，就停止测量
                     if (currentState == CONNECTSTATE.WORK) {
-                        stopMeasure();
+                        this.stopMeasure();
                     }
                     keepReading = false;
                     reader.cancel();
