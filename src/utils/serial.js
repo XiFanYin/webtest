@@ -193,7 +193,7 @@ class SingletonSerial {
                                 break;
                             }
                             if (value) {
-                                resultData.push(Buffer.from(value).toString('hex'));
+                                resultData.push(value.toString(16));
                                 if (resultData.length > 5) {
                                     switch (resultData[5]) {
                                         case "02": { //开始测量回执
