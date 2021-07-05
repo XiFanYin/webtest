@@ -161,7 +161,7 @@ class SingletonSerial {
                         start()
                     } catch (error) {
                         //发生异常向外告知异常
-                        if (error.message == "Failed to open serial port.") {
+                        if (error.message == "Failed to open serial port."||error.message =="navigator.serial is undefined") {
                             callError(ERRORSTATE.OPENFAIL)
                         } else if (error.message == "No port selected by the user.") {
                             callError(ERRORSTATE.NOSELECET)
