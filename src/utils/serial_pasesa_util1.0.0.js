@@ -190,6 +190,10 @@ class SingletonPasesaSerial {
                                 var tempdata = uint8Array(value)
                                 //数据做拼接
                                 resultData = resultData.concat(tempdata)
+                                //机器按下了开始键--过滤掉53命令
+                                if(resultData.length == 6&&resultData[1]=="53"){
+                                    resultData.length = 0;
+                                }
                                 //长度等于7.表示是命令的回执
                                 if (resultData.length == 7) {
                                     switch (resultData[1]) {
