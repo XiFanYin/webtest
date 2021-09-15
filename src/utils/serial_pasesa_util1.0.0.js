@@ -305,6 +305,7 @@ class SingletonPasesaSerial {
                     //硬件设备物理按键关闭，这里做释放处理
                     reader.releaseLock();
                     writer.releaseLock();
+                    changeState(CONNECTSTATE.UNCONNECT)
                     await port.close();
                 }
                 port = null;
