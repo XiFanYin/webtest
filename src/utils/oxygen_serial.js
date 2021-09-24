@@ -130,6 +130,21 @@ class SingletonOxygenSerial {
                 }
             }
 
+
+            /**
+             * 关闭串口连接，并销毁对象防止内存泄漏
+             * 
+             */
+            this.destroy = async function () {
+                //只有连接了才能断开连接
+                if (currentState != CONNECTSTATE.UNCONNECT) {
+                    changeState(CONNECTSTATE.UNCONNECT)
+                    keepReading = false;
+                    reader.cancel();
+                }
+
+
+            }
             /**
              * 监听串口回执数据
              */
@@ -150,7 +165,7 @@ class SingletonOxygenSerial {
                             }
                             if (value) {
                                 //改变工作状态为正在工作
-                                if(currentState==CONNECTSTATE.UNCONNECT){
+                                if (currentState == CONNECTSTATE.UNCONNECT) {
                                     changeState(CONNECTSTATE.WORK)
                                 }
                                 //unit8数组转成16进制数组
@@ -359,16 +374,6 @@ class SingletonOxygenSerial {
                     return acc;
                 }, 0);
             }
-
-            var pad = function () {
-                var tbl = [];
-                return function (num) {
-                    var len = 8 - num.toString().length;
-                    if (len <= 0) return num;
-                    if (!tbl[len]) tbl[len] = (new Array(len + 1)).join('0');
-                    return tbl[len] + num;
-                }
-            }();
 
 
             //将this挂载到SingletonApple这个类的instance属性上
