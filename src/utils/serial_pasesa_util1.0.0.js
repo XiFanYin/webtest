@@ -126,9 +126,9 @@ class SingletonPasesaSerial {
              * 打开串口，同时发送connect命令
              */
             this.startMeasure = async function (age, sex) {
-                mAge = age
-                mSex = sex
                 if (currentState == CONNECTSTATE.UNCONNECT) {
+                    mAge = age
+                    mSex = sex
                     //改变链接状态为连接中
                     changeState(CONNECTSTATE.CONNECTING)
                     try {
