@@ -256,7 +256,10 @@ class SingletonOxygenSerial {
                                                         let pausePower = 0
                                                         //获取波形数据
                                                         let wavePower = hex2int(cutdata[5]) & 0x7F
-                                                        pausePower = wavePower / 8 > 15 ? 15 : wavePower / 8
+                                                        if(pause){
+                                                            pausePower = wavePower / 8 > 15 ? 15 : wavePower / 8
+                                                        }
+                                                     
                                                         paseResult(null, {
                                                             "pause": pause,
                                                             "pausePower": pausePower,
