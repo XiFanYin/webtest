@@ -41,11 +41,8 @@ class SingletonUrineSerial {
                 CONNECTED: {
                     code: 2,
                     message: "已经连接"
-                },
-                TESTERROR: {
-                    code: 4,
-                    message: "未放入试纸条或试纸条放入不完整"
                 }
+              
             };
 
             this.CONNECTSTATE = CONNECTSTATE;
