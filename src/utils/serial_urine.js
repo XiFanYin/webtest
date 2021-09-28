@@ -16,17 +16,13 @@ class SingletonUrineSerial {
             let mResultListener = null;
             //停止标识
             let keepReading = true;
-            //记录获取的最后一条数据
-            var lastTestData = ""
+            //数据拼接
+            let resultData = [];
             //硬件设备过滤参数
             const filters = [{
                 usbVendorId: 0x483,
                 usbProductId: 0x5740,
             }];
-            //获取最后一次测试数据
-            const LASTData = new Uint8Array([
-                0x93, 0x8e, 0x04, 0x00, 0x08, 0x04, 0x10
-            ]);
             //连接状态定义
             const CONNECTSTATE = {
                 UNCONNECT: 0, //未连接
@@ -105,9 +101,6 @@ class SingletonUrineSerial {
                         readListener();
                         //改变连接状态未已连接
                         changeState(CONNECTSTATE.WORK)
-                        //请求最后一条数据
-                        writeCommand(LASTData)
-                        looperTime()
                     } catch (error) {
                         //改变链接状态为未连接
                         changeState(CONNECTSTATE.UNCONNECT)
@@ -140,16 +133,6 @@ class SingletonUrineSerial {
 
             }
 
-            function looperTime() {
-                const a = setTimeout(() => {
-                    if (lastTestData == "") {
-                        writeCommand(LASTData)
-                        looperTime()
-                    }
-                    clearTimeout(a)
-                }, 500)
-
-            }
 
 
             /**
@@ -173,25 +156,24 @@ class SingletonUrineSerial {
                             if (value) {
                                 //unit8数组转成16进制数组
                                 var tempvalue = Array.prototype.map.call(value, (x) => ('00' + x.toString(16)).slice(-2));
-                                console.log(tempvalue)
-                                if (tempvalue.length == 19) {
-                                    if (lastTestData == "" || tempvalue[4] == "08" && tempvalue[5] == "04") {
-                                        //连接后查询记录当前设备测试的最后一条数据
-                                        lastTestData = tempvalue
-                                    } else {
-                                        //不是首次连接，判断和上次记录的数据是否相等
-                                        if (hex2int(lastTestData[6] + lastTestData[7]) == hex2int(tempvalue[6] + tempvalue[7])) {
-                                            //表示测量试纸条放入不正确或者未放入试纸     
-                                            callError(ERRORSTATE.TESTERROR)
-                                        } else {
-                                            //这里说明本次测量有效，去解析数据即可
-                                            parseData(tempvalue)
-                                            lastTestData = tempvalue
+                                //把返回的数据放入数组做缓存
+                                resultData = resultData.concat(tempvalue)
+                                //说明拿到了起始帧
+                                if (resultData.length >= 2) {
+                                    //如果起始帧正确
+                                    if (resultData[0] == "93" && resultData[1] == "8e") {
+                                        //这里校验数据长度是否正确
+                                        if (resultData.length == 19) {
+                                            parseData(resultData)
+                                            resultData.length = 0
                                         }
+                                    } else {
+                                        //去掉数组第一位
+                                        resultData.shift()
                                     }
-                                } else if (tempvalue.length == 38) {
-                                    parseData(tempvalue.slice(19, 38))
                                 }
+
+
                             }
                         }
                     } catch (error) {
@@ -204,6 +186,9 @@ class SingletonUrineSerial {
                     resetData();
                 }
             };
+
+
+
 
 
             /**
