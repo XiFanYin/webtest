@@ -41,6 +41,10 @@ class SingletonUrineSerial {
                 CONNECTED: {
                     code: 2,
                     message: "已经连接"
+                },
+                NOFANG: {
+                    code: 3,
+                    message: "试纸未放入"
                 }
               
             };
@@ -162,6 +166,9 @@ class SingletonUrineSerial {
                                         //这里校验数据长度是否正确
                                         if (resultData.length == 19) {
                                             parseData(resultData)
+                                            resultData.length = 0
+                                        } else if(resultData.length==8){
+                                            callError(ERRORSTATE.NOFANG)
                                             resultData.length = 0
                                         }
                                     } else {
